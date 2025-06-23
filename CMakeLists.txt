@@ -10,6 +10,12 @@ endif ()
 
 add_executable(${PROJECT_NAME}
         src/main.cpp
+        src/Application.cpp
+        src/Application.h
+        src/Window.cpp
+        src/Window.h
+        src/UI.cpp
+        src/UI.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE src)

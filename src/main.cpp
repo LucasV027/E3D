@@ -1,6 +1,6 @@
-#include <iostream>
+#include "Application.h"
 
 int main() {
-    std::cout << "Hello World!\n";
-    return 0;
+    const E3D::Application app;
+    app.Run();
 }
