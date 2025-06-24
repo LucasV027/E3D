@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Scene.h"
 #include "UI.h"
 #include "Window.h"
 
@@ -16,7 +17,7 @@ namespace E3D {
     private:
         std::unique_ptr<Window> window;
         std::unique_ptr<UI> ui;
-        bool m_Running = true;
+        std::unique_ptr<Scene> scene;
     };
 }
 

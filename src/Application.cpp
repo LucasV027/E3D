@@ -1,15 +1,13 @@
 #include "Application.h"
 
-#define GLFW_INCLUDE_NONE
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "imgui.h"
+#include "DefaultScene.h"
 
 namespace E3D {
     Application::Application() {
         window = std::make_unique<Window>("E3D", 1280, 720);
         ui = std::make_unique<UI>();
         ui->Init(window->Handle());
+        scene = std::make_unique<DefaultScene>();
     }
 
     Application::~Application() {
@@ -20,11 +18,10 @@ namespace E3D {
         while (!window->ShouldClose()) {
             window->PollEvents();
 
-            glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            scene->OnUpdate(1.0f);
 
             ui->BeginFrame();
-            ImGui::ShowDemoWindow();
+            scene->OnImGuiRender();
             ui->EndFrame();
 
             window->SwapBuffers();

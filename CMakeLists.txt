@@ -17,6 +17,9 @@ add_executable(${PROJECT_NAME}
         src/UI.cpp
         src/UI.h
         src/Base.h
+        src/Scene.h
+        src/DefaultScene.cpp
+        src/DefaultScene.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE src)
