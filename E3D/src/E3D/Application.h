@@ -19,5 +19,7 @@ namespace E3D {
         std::unique_ptr<UI> ui;
         std::unique_ptr<Scene> scene;
     };
+
+    Application* CreateApplication(int argc, char** argv);
 }
 
