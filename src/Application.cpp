@@ -1,9 +1,9 @@
 #include "Application.h"
 
-#include "imgui.h"
 #define GLFW_INCLUDE_NONE
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "imgui.h"
 
 namespace E3D {
     Application::Application() {

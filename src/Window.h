@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <string>
 
 class GLFWwindow;
@@ -12,9 +13,10 @@ namespace E3D {
 
         GLFWwindow* Handle() const;
 
-        void PollEvents() const;
+        void PollEvents();
         void SwapBuffers() const;
         bool ShouldClose() const;
+        void Bind() const;
 
         int Width() const;
         int Height() const;
