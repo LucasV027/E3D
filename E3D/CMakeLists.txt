@@ -1,7 +1,5 @@
 add_library(E3D STATIC
-        src/E3D.h)
-
-target_sources(E3D PRIVATE
+        src/E3D.h
         src/E3D/EntryPoint.h
         src/E3D/Application.cpp
         src/E3D/Application.h
@@ -11,6 +9,8 @@ target_sources(E3D PRIVATE
         src/E3D/UI.h
         src/E3D/Base.h
         src/E3D/Scene.h
+        src/E3D/RenderCommand.cpp
+        src/E3D/RenderCommand.h
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
