@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "Scene.h"
-#include "UI.h"
 #include "Window.h"
 
 int main(int argc, char** argv);
@@ -20,7 +19,6 @@ namespace E3D {
 
     private:
         std::unique_ptr<Window> window;
-        std::unique_ptr<UI> ui;
         Scene* scene = nullptr;
 
     private:

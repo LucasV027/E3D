@@ -5,10 +5,10 @@
 namespace E3D {
     class UI {
     public:
-        void Init(GLFWwindow* window);
-        void Shutdown();
+        static void Init(GLFWwindow* window);
+        static void Shutdown();
 
-        void BeginFrame();
-        void EndFrame();
+        static void BeginFrame();
+        static void EndFrame();
     };
 }
