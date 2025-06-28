@@ -11,9 +11,9 @@
 namespace E3D {
     int Window::windowCount = 0;
 
-    Window::Window(std::string _title, const int _width, const int _height) : title(std::move(_title)),
-                                                                              width(_width),
-                                                                              height(_height) {
+    Window::Window(std::string title, const int width, const int height) : title(std::move(title)),
+                                                                           width(width),
+                                                                           height(height) {
         Init();
     }
 
@@ -36,7 +36,8 @@ namespace E3D {
     void Window::Init() {
         if (windowCount == 0) {
             const int success = glfwInit();
-            if (!success) panic("Failed to initialize GLFW");
+            if (!success)
+                panic("Failed to initialize GLFW");
 
             glfwSetErrorCallback(GLFWErrorCallback);
         }
@@ -46,7 +47,8 @@ namespace E3D {
 
         glfwMakeContextCurrent(window);
         const int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        if (!status) panic("Failed to initialize GLAD");
+        if (!status)
+            panic("Failed to initialize GLAD");
     }
 
     void Window::GLFWErrorCallback(int error, const char* description) {

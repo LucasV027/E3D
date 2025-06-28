@@ -1,17 +1,18 @@
 #include "Application.h"
 
 #include <format>
-#include <iostream>
 
 #include "UI.h"
 
 #include "E3D/Event/EventSystem.h"
+#include "E3D/Graphics/RenderCommand.h"
 
 namespace E3D {
     Application::Application(std::string title, int width, int height) {
         window = std::make_unique<Window>(std::move(title), width, height);
         EventSystem::Init(window->Handle());
         EventSystem::Register<EventType::WindowClose>(BIND_EVENT_FN(OnClose));
+        EventSystem::Register<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
 
         // Important: Initialize ImGui *after* the EventSystem.
         // ImGui's setup appends its own GLFW callbacks to any existing ones,
@@ -47,5 +48,9 @@ namespace E3D {
 
     void Application::OnClose() {
         running = false;
+    }
+
+    void Application::OnResize(const int width, const int height) {
+        RenderCommand::SetViewPort(0, 0, width, height);
     }
 }

@@ -4,7 +4,7 @@
 #include <list>
 #include <utility>
 
-#include "GLFW/glfw3.h"
+#include "E3D/Core/Window.h"
 
 namespace E3D {
     enum class EventType {
@@ -18,9 +18,9 @@ namespace E3D {
     };
 
     enum class Action {
-        Press = GLFW_PRESS,
-        Release = GLFW_RELEASE,
-        Repeat = GLFW_REPEAT,
+        Press = 1,   // GLFW_PRESS
+        Release = 0, // GLFW_RELEASE
+        Repeat = 2,  // GLFW_REPEAT
     };
 
     #define REGISTER_EVENT_CALLBACK(eventName, callbackType)                \

@@ -7,7 +7,7 @@ class GLFWwindow;
 namespace E3D {
     class Window {
     public:
-        Window(std::string _title, int _width, int _height);
+        Window(std::string title, int width, int height);
         ~Window();
 
         GLFWwindow* Handle() const;

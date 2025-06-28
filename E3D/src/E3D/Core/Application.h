@@ -17,6 +17,7 @@ namespace E3D {
     private:
         void Run() const;
         void OnClose();
+        void OnResize(int width, int height);
 
     private:
         std::unique_ptr<Window> window;
