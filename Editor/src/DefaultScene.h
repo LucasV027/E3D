@@ -2,6 +2,9 @@
 
 #include <E3D.h>
 
+#include "E3D/Graphics/Camera.h"
+#include "E3D/Graphics/CameraController.h"
+
 class DefaultScene final : public E3D::Scene {
 public:
     DefaultScene();
@@ -18,6 +21,8 @@ private:
     E3D::IndexBuffer ibo;
     E3D::VertexArray vao;
     E3D::Program program;
+
+    E3D::CameraController controller;
 
     // Transforms
     glm::mat4 model = glm::mat4(1.0f);

@@ -21,6 +21,10 @@ add_library(E3D STATIC
         src/E3D/Graphics/VertexArray.h
         src/E3D/Graphics/Program.cpp
         src/E3D/Graphics/Program.h
+        src/E3D/Graphics/Camera.cpp
+        src/E3D/Graphics/Camera.h
+        src/E3D/Graphics/CameraController.cpp
+        src/E3D/Graphics/CameraController.h
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
