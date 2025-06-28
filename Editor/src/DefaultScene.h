@@ -12,5 +12,10 @@ public:
     void OnImGuiRender() override;
 
     void OnEvent() override;
+
+    void OnResize(int newWidth, int newHeight);
+
+private:
+    E3D::ListenerHandle<E3D::EventType::WindowResize> handle;
 };
 

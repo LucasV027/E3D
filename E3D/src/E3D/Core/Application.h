@@ -16,10 +16,12 @@ namespace E3D {
 
     private:
         void Run() const;
+        void OnClose();
 
     private:
         std::unique_ptr<Window> window;
         Scene* scene = nullptr;
+        bool running = true;
 
     private:
         friend int ::main(int argc, char** argv);

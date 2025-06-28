@@ -8,3 +8,5 @@
 #include "E3D/Graphics/RenderCommand.h"
 
 #include "E3D/Scene/Scene.h"
+
+#include "E3D/Event/EventSystem.h"

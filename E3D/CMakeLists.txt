@@ -11,6 +11,8 @@ add_library(E3D STATIC
         src/E3D/Scene/Scene.h
         src/E3D/Graphics/RenderCommand.cpp
         src/E3D/Graphics/RenderCommand.h
+        src/E3D/Event/EventSystem.cpp
+        src/E3D/Event/EventSystem.h
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
