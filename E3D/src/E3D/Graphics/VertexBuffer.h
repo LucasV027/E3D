@@ -12,7 +12,9 @@ namespace E3D {
         Short = GL_SHORT,
         UnsignedShort = GL_UNSIGNED_SHORT,
         Int = GL_INT,
-        UnsignedInt = GL_UNSIGNED_INT
+        UnsignedInt = GL_UNSIGNED_INT,
+        Float = GL_FLOAT,
+        Double = GL_DOUBLE
     };
 
     constexpr unsigned int AttributeTypeSize(const AttributeType type) {
@@ -23,6 +25,8 @@ namespace E3D {
         case AttributeType::UnsignedShort: return 2;
         case AttributeType::Int: return 4;
         case AttributeType::UnsignedInt: return 4;
+        case AttributeType::Float: return 4;
+        case AttributeType::Double: return 8;
         }
         return 0;
     }

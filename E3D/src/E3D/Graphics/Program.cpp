@@ -14,7 +14,7 @@ namespace E3D {
 
     void Program::Init() { id = glCreateProgram(); }
 
-    bool Program::Attach(ShaderType type, const std::string& filepath) const {
+    bool Program::Attach(ShaderType type, const fs::path& filepath) const {
         const auto shaderSource = ReadFile(filepath);
         const auto shader = glCreateShader(static_cast<GLenum>(type));
         if (!CompileShader(shader, shaderSource)) return false;
@@ -90,6 +90,5 @@ namespace E3D {
             throw std::runtime_error("Failed to read file: " + filepath.string());
 
         return buffer;
-
     }
 }

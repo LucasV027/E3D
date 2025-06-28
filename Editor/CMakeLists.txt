@@ -6,4 +6,6 @@ add_executable(EditorApp
 
 target_include_directories(EditorApp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../E3D/src)
 
+target_compile_definitions(EditorApp PRIVATE ASSETS_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/assets/\")
+
 target_link_libraries(EditorApp PRIVATE E3D)

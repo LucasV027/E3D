@@ -47,7 +47,7 @@ namespace E3D {
         }
     }
 
-    void RenderCommand::SetWireframe(const bool enabled) {
+    void RenderCommand::SetWireframeMode(const bool enabled) {
         glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
     }
 }

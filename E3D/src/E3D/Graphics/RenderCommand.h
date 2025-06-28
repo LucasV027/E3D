@@ -14,6 +14,6 @@ namespace E3D {
         static void SetViewPort(int x, int y, int width, int height);
         static void SetDepthTest(bool enabled);
         static void SetCullFace(bool enabled);
-        static void SetWireframe(bool enabled);
+        static void SetWireframeMode(bool enabled);
     };
 }

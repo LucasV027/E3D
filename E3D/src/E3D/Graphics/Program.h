@@ -20,7 +20,7 @@ namespace E3D {
         ~Program();
 
         void Init();
-        bool Attach(ShaderType type, const std::string& filepath) const;
+        bool Attach(ShaderType type, const fs::path& filepath) const;
         bool Link() const;
         void Bind() const;
         static void Unbind();
