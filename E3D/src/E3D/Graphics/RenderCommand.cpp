@@ -8,6 +8,24 @@ namespace E3D {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
+    void RenderCommand::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Program& program) {
+        vao.Bind();
+        ibo.Bind();
+        program.Bind();
+        glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
+        program.Unbind();
+        ibo.Unbind();
+        vao.Unbind();
+    }
+
+    void RenderCommand::Draw(const VertexArray& vao, const int first, const int count, const Program& program) {
+        vao.Bind();
+        program.Bind();
+        glDrawArrays(GL_TRIANGLES, first, count);
+        program.Unbind();
+        vao.Unbind();
+    }
+
     void RenderCommand::SetViewPort(const int x, const int y, const int width, const int height) {
         glViewport(x, y, width, height);
     }
