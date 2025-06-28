@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Scene.h"
+#include "E3D/Scene/Scene.h"
 #include "Window.h"
 
 int main(int argc, char** argv);

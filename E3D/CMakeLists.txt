@@ -1,16 +1,16 @@
 add_library(E3D STATIC
         src/E3D.h
-        src/E3D/EntryPoint.h
-        src/E3D/Application.cpp
-        src/E3D/Application.h
-        src/E3D/Window.cpp
-        src/E3D/Window.h
-        src/E3D/UI.cpp
-        src/E3D/UI.h
-        src/E3D/Base.h
-        src/E3D/Scene.h
-        src/E3D/RenderCommand.cpp
-        src/E3D/RenderCommand.h
+        src/E3D/Core/EntryPoint.h
+        src/E3D/Core/Application.cpp
+        src/E3D/Core/Application.h
+        src/E3D/Core/Window.cpp
+        src/E3D/Core/Window.h
+        src/E3D/Core/UI.cpp
+        src/E3D/Core/UI.h
+        src/E3D/Core/Base.h
+        src/E3D/Scene/Scene.h
+        src/E3D/Graphics/RenderCommand.cpp
+        src/E3D/Graphics/RenderCommand.h
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
