@@ -13,19 +13,47 @@ public:
 
     void OnEvent() override;
 
-    void OnResize(int newWidth, int newHeight);
-
 private:
-    E3D::Program program;
-    E3D::VertexArray vao;
     E3D::VertexBuffer vbo;
-    E3D::ListenerHandle<E3D::EventType::WindowResize> handle;
+    E3D::IndexBuffer ibo;
+    E3D::VertexArray vao;
+    E3D::Program program;
 
-    static constexpr float VERTICES[] = {
-        // positions         // colors
-        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-       -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-        0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top
+    // Transforms
+    glm::mat4 model = glm::mat4(1.0f);
+    float rotationSpeed = 0.0f;
+    glm::vec3 rotationAxis = glm::vec3(1.0f);
+    glm::mat4 rotationMatrix = glm::mat4(1.0f);
+    glm::vec3 scale = glm::vec3(1.0f);
+
+    // Data
+    const std::filesystem::path fsPath = ASSETS_DIR "/cube.frag";
+    const std::filesystem::path vsPath = ASSETS_DIR "/cube.vert";
+
+    static constexpr float CUBE_COLOR[] = {
+        0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f,
+        0.5f, -0.5f, 0.5f, 0.f, 1.f, 0.f,
+        -0.5f, -0.5f, 0.5f, 0.f, 0.f, 1.f,
+        -0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f,
+        0.5f, 0.5f, -0.5f, 1.f, 0.f, 1.f,
+        0.5f, 0.5f, 0.5f, 0.f, 1.f, 1.f,
+        -0.5f, 0.5f, 0.5f, 1.f, 0.64f, 0.0f,
+        -0.5f, 0.5f, -0.5f, 1.f, 0.75f, 0.79f
+    };
+
+    static constexpr unsigned int CUBE_COLOR_INDICES[] = {
+        1, 2, 3,
+        4, 7, 6,
+        4, 5, 1,
+        1, 5, 6,
+        6, 7, 3,
+        4, 0, 3,
+        0, 1, 3,
+        5, 4, 6,
+        0, 4, 1,
+        2, 1, 6,
+        2, 6, 3,
+        7, 4, 3
     };
 };
 

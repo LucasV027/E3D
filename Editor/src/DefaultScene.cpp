@@ -1,40 +1,43 @@
 #include "DefaultScene.h"
 
-#include <format>
-#include <iostream>
-
 #include "imgui.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 DefaultScene::DefaultScene() {
-    handle = E3D::EventSystem::Register<E3D::EventType::WindowResize>(BIND_EVENT_FN(OnResize));
+    vao.Init();
+    vbo.Load(CUBE_COLOR, sizeof(CUBE_COLOR));
+    vao.AddBuffer(vbo, {{E3D::AttributeType::Float, 3}, {E3D::AttributeType::Float, 3}});
+
+    ibo.Load(CUBE_COLOR_INDICES, 36);
 
     program.Init();
-    (void)program.Attach(E3D::ShaderType::Fragment, ASSETS_DIR "main.frag");
-    (void)program.Attach(E3D::ShaderType::Vertex, ASSETS_DIR "main.vert");
+    (void)program.Attach(E3D::ShaderType::Vertex, vsPath);
+    (void)program.Attach(E3D::ShaderType::Fragment, fsPath);
     (void)program.Link();
 
-    vao.Init();
-    vbo.Load(VERTICES, sizeof(VERTICES));
-    vao.AddBuffer(vbo, {{E3D::AttributeType::Float, 3}, {E3D::AttributeType::Float, 3}});
+    E3D::RenderCommand::SetCullFace(true);
 }
 
-DefaultScene::~DefaultScene() {
-    E3D::EventSystem::Unregister<E3D::EventType::WindowResize>(handle);
-}
+DefaultScene::~DefaultScene() {}
 
-void DefaultScene::OnUpdate(float ts) {
+void DefaultScene::OnUpdate(const float ts) {
+    model = glm::mat4(1.0f);
+    rotationMatrix = rotate(rotationMatrix, rotationSpeed * ts, normalize(rotationAxis));
+    model = rotationMatrix;
+    model = glm::scale(model, scale);
+
+    // program.SetUniform("mvp", glm::identity<4>());
+
     E3D::RenderCommand::Clear(0.1f, 0.1f, 0.1f);
-    E3D::RenderCommand::Draw(vao, 0, 3, program);
+    E3D::RenderCommand::Draw(vao, ibo, program);
 }
 
 void DefaultScene::OnImGuiRender() {
-    ImGui::Begin("[INFO]");
-    ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
-    ImGui::End();
+    ImGui::SliderFloat("Rotation Speed", &rotationSpeed, 0.0f, 10.0f);
+    ImGui::SliderFloat3("Rotation Axis", &rotationAxis.x, -1.0f, 1.0f);
+    ImGui::SliderFloat3("Scale", &scale.x, 1.0f, 10.0f);
 }
 
 void DefaultScene::OnEvent() {}
 
-void DefaultScene::OnResize(int newWidth, int newHeight) {
-    std::cout << std::format("DefaultScene::OnResize ({} {})", newWidth, newHeight) << std::endl;
-}
+

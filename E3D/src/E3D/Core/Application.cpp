@@ -2,6 +2,7 @@
 
 #include <format>
 
+#include "imgui.h"
 #include "UI.h"
 
 #include "E3D/Event/EventSystem.h"
@@ -38,7 +39,10 @@ namespace E3D {
                 scene->OnUpdate(1.0f);
 
                 UI::BeginFrame();
+                ImGui::Begin("[INFO]");
+                ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
                 scene->OnImGuiRender();
+                ImGui::End();
                 UI::EndFrame();
             }
 
