@@ -1,10 +1,5 @@
 #include "CameraController.h"
 
-#define GLM_ENABLE_EXPERIMENTAL
-#include "E3D/Event/EventSystem.h"
-#include "glm/gtx/rotate_vector.hpp"
-#include "glm/gtx/vector_angle.hpp"
-
 namespace E3D {
     CameraController::CameraController(const float aspectRatio, const float fovDeg) :
         aspectRatio(aspectRatio),
