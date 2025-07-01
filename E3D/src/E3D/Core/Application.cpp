@@ -3,6 +3,7 @@
 #include <format>
 
 #include "imgui.h"
+#include "Timer.h"
 #include "UI.h"
 
 #include "E3D/Event/EventSystem.h"
@@ -34,11 +35,15 @@ namespace E3D {
     }
 
     void Application::Run() const {
+        Timer deltaClock;
+        deltaClock.Start();
+
         while (running) {
+            deltaClock.Update();
             window->PollEvents();
 
             if (scene) {
-                scene->OnUpdate(0.001f);
+                scene->OnUpdate(deltaClock.DeltaTime());
 
                 UI::BeginFrame();
                 ImGui::Begin("[INFO]");

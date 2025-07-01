@@ -8,9 +8,9 @@ add_library(E3D STATIC
         src/E3D/Core/UI.cpp
         src/E3D/Core/UI.h
         src/E3D/Core/Base.h
+        src/E3D/Core/Timer.h
+        src/E3D/Core/Timer.cpp
         src/E3D/Scene/Scene.h
-        src/E3D/Event/EventSystem.cpp
-        src/E3D/Event/EventSystem.h
         src/E3D/Graphics/RenderCommand.cpp
         src/E3D/Graphics/RenderCommand.h
         src/E3D/Graphics/IndexBuffer.cpp
@@ -25,6 +25,8 @@ add_library(E3D STATIC
         src/E3D/Graphics/Camera.h
         src/E3D/Graphics/CameraController.cpp
         src/E3D/Graphics/CameraController.h
+        src/E3D/Event/EventSystem.cpp
+        src/E3D/Event/EventSystem.h
         src/E3D/Event/Input.cpp
         src/E3D/Event/Input.h
         src/E3D/Event/KeyCode.h
