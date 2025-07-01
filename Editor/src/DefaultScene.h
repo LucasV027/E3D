@@ -14,8 +14,6 @@ public:
 
     void OnImGuiRender() override;
 
-    void OnEvent() override;
-
 private:
     E3D::VertexBuffer vbo;
     E3D::IndexBuffer ibo;

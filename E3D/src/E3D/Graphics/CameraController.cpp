@@ -10,17 +10,12 @@ namespace E3D {
     CameraController::CameraController(const float aspectRatio, const float fovDeg) :
         aspectRatio(aspectRatio),
         fov(fovDeg) {
-        wrHandle = EventSystem::Register<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
-        sHandle = EventSystem::Register<EventType::MouseScroll>(BIND_EVENT_FN(OnScroll));
-        mHandle = EventSystem::Register<EventType::MouseMoved>(BIND_EVENT_FN(OnMouseMove));
-        kHandle = EventSystem::Register<EventType::KeyboardInput>(BIND_EVENT_FN(OnKeyPress));
-
         camera.SetPerspective(fov * zoom, aspectRatio);
-    }
 
-    CameraController::~CameraController() {
-        EventSystem::Unregister<EventType::WindowResize>(wrHandle);
-        EventSystem::Unregister<EventType::MouseScroll>(sHandle);
+        events.Subscribe<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
+        events.Subscribe<EventType::MouseScroll>(BIND_EVENT_FN(OnScroll));
+        events.Subscribe<EventType::MouseMoved>(BIND_EVENT_FN(OnMouseMove));
+        events.Subscribe<EventType::KeyboardInput>(BIND_EVENT_FN(OnKeyPress));
     }
 
     Camera& CameraController::GetCamera() { return camera; }

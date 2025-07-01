@@ -4,6 +4,7 @@
 
 #include "E3D/Scene/Scene.h"
 #include "Window.h"
+#include "E3D/Event/EventSystem.h"
 
 int main(int argc, char** argv);
 
@@ -21,6 +22,7 @@ namespace E3D {
 
     private:
         std::unique_ptr<Window> window;
+        ScopedEventListener handler;
         Scene* scene = nullptr;
         bool running = true;
 

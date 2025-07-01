@@ -51,7 +51,9 @@ namespace E3D {
     using ListenerHandle = typename std::list<typename EventCallbackType<ET>::type>::iterator;
 
     class EventSystem {
-    public:
+        friend class Application;
+        friend class ScopedEventListener;
+
         static void Init(GLFWwindow* window);
 
         template <EventType ET>
@@ -66,7 +68,6 @@ namespace E3D {
             listeners.erase(handle);
         }
 
-    private:
         template <EventType ET>
         static void Dispatch(auto&&... args) {
             for (auto& cb : GetListeners<ET>()) {
@@ -82,4 +83,26 @@ namespace E3D {
     };
 
     #define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+
+    class ScopedEventListener {
+    public:
+        ScopedEventListener() = default;
+
+        ~ScopedEventListener() {
+            for (auto& cleanup : cleanups)
+                cleanup();
+        }
+
+        ScopedEventListener(const ScopedEventListener&) = delete;
+        ScopedEventListener& operator=(const ScopedEventListener&) = delete;
+
+        template <EventType ET>
+        void Subscribe(typename EventCallbackType<ET>::type callback) {
+            auto handle = EventSystem::Register<ET>(std::move(callback));
+            cleanups.emplace_back([handle] { EventSystem::Unregister<ET>(handle); });
+        }
+
+    private:
+        std::vector<std::function<void()>> cleanups;
+    };
 }

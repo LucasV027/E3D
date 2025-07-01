@@ -18,7 +18,7 @@ DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
     E3D::RenderCommand::SetCullFace(true);
 }
 
-DefaultScene::~DefaultScene() {}
+DefaultScene::~DefaultScene() = default;
 
 void DefaultScene::OnUpdate(const float ts) {
     controller.OnUpdate(ts);
@@ -45,7 +45,5 @@ void DefaultScene::OnImGuiRender() {
     ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
     ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
 }
-
-void DefaultScene::OnEvent() {}
 
 

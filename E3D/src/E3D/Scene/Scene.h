@@ -1,5 +1,7 @@
 #pragma once
 
+#include "E3D/Event/EventSystem.h"
+
 namespace E3D {
     class Scene {
     public:
@@ -8,6 +10,8 @@ namespace E3D {
 
         virtual void OnUpdate(float ts) {}
         virtual void OnImGuiRender() {}
-        virtual void OnEvent(/* TODO: Event object? */) {}
+
+    protected:
+        ScopedEventListener events;
     };
 }

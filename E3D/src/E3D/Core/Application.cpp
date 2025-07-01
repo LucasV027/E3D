@@ -15,8 +15,8 @@ namespace E3D {
         window = std::make_unique<Window>(std::move(title), width, height);
         Input::Init(window->Handle());
         EventSystem::Init(window->Handle());
-        EventSystem::Register<EventType::WindowClose>(BIND_EVENT_FN(OnClose));
-        EventSystem::Register<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
+        handler.Subscribe<EventType::WindowClose>(BIND_EVENT_FN(OnClose));
+        handler.Subscribe<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
 
         // Important: Initialize ImGui *after* the EventSystem.
         // ImGui's setup appends its own GLFW callbacks to any existing ones,
