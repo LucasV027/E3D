@@ -25,6 +25,8 @@ add_library(E3D STATIC
         src/E3D/Graphics/Camera.h
         src/E3D/Graphics/CameraController.cpp
         src/E3D/Graphics/CameraController.h
+        src/E3D/Event/Input.cpp
+        src/E3D/Event/Input.h
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

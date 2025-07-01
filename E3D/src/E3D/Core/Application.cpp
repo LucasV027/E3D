@@ -6,11 +6,13 @@
 #include "UI.h"
 
 #include "E3D/Event/EventSystem.h"
+#include "E3D/Event/Input.h"
 #include "E3D/Graphics/RenderCommand.h"
 
 namespace E3D {
     Application::Application(std::string title, int width, int height) {
         window = std::make_unique<Window>(std::move(title), width, height);
+        Input::Init(window->Handle());
         EventSystem::Init(window->Handle());
         EventSystem::Register<EventType::WindowClose>(BIND_EVENT_FN(OnClose));
         EventSystem::Register<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
