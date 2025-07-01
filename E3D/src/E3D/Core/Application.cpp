@@ -38,7 +38,7 @@ namespace E3D {
             window->PollEvents();
 
             if (scene) {
-                scene->OnUpdate(1.0f);
+                scene->OnUpdate(0.001f);
 
                 UI::BeginFrame();
                 ImGui::Begin("[INFO]");

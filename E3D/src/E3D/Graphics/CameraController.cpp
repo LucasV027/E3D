@@ -1,5 +1,8 @@
 #include "CameraController.h"
 
+#include "E3D/Event/Input.h"
+#include "E3D/Event/KeyCode.h"
+
 namespace E3D {
     CameraController::CameraController(const float aspectRatio, const float fovDeg) :
         aspectRatio(aspectRatio),
@@ -15,6 +18,29 @@ namespace E3D {
     }
 
     Camera& CameraController::GetCamera() { return camera; }
+
+    void CameraController::OnUpdate(const float dt) {
+        glm::vec3 pos = camera.GetPosition();
+        const glm::vec3 orientation = camera.GetOrientation();
+        constexpr glm::vec3 up = {0.f, 1.f, 0.f};
+
+        const float speed = Input::IsKeyPressed(Keyboard::LEFT_SHIFT) ? boostSpeed : baseSpeed;
+
+        if (Input::IsKeyPressed(Keyboard::W))
+            pos += dt * speed * orientation;
+        if (Input::IsKeyPressed(Keyboard::S))
+            pos -= dt * speed * orientation;
+        if (Input::IsKeyPressed(Keyboard::D))
+            pos += dt * speed * glm::normalize(glm::cross(orientation, up));
+        if (Input::IsKeyPressed(Keyboard::A))
+            pos -= dt * speed * glm::normalize(glm::cross(orientation, up));
+        if (Input::IsKeyPressed(Keyboard::SPACE))
+            pos += dt * speed * up;
+        if (Input::IsKeyPressed(Keyboard::LEFT_CONTROL))
+            pos -= dt * speed * up;
+
+        camera.SetPosition(pos);
+    }
 
     void CameraController::OnResize(const int width, const int height) {
         aspectRatio = static_cast<float>(width) / static_cast<float>(height);
