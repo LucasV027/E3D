@@ -41,3 +41,5 @@ target_include_directories(
         ${imgui_SOURCE_DIR}
         ${imgui_SOURCE_DIR}/backends
 )
+
+add_subdirectory(thirdparty/stb_image)

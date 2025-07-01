@@ -43,4 +43,5 @@ target_link_libraries(E3D PUBLIC
         glfw
         glm
         imgui
+        stb_image
 )
