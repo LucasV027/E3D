@@ -15,6 +15,9 @@ namespace E3D {
         static float GetMouseX();
         static float GetMouseY();
 
+        // TODO: Put this somewhere else?
+        static void SetCursorMode(int mode);
+
     private:
         static GLFWwindow* window;
     };

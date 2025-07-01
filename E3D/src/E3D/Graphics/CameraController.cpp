@@ -1,7 +1,10 @@
 #include "CameraController.h"
 
+#include <iostream>
+
 #include "E3D/Event/Input.h"
 #include "E3D/Event/KeyCode.h"
+#include "GLFW/glfw3.h"
 
 namespace E3D {
     CameraController::CameraController(const float aspectRatio, const float fovDeg) :
@@ -9,6 +12,9 @@ namespace E3D {
         fov(fovDeg) {
         wrHandle = EventSystem::Register<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
         sHandle = EventSystem::Register<EventType::MouseScroll>(BIND_EVENT_FN(OnScroll));
+        mHandle = EventSystem::Register<EventType::MouseMoved>(BIND_EVENT_FN(OnMouseMove));
+        kHandle = EventSystem::Register<EventType::KeyboardInput>(BIND_EVENT_FN(OnKeyPress));
+
         camera.SetPerspective(fov * zoom, aspectRatio);
     }
 
@@ -56,5 +62,49 @@ namespace E3D {
             return;
         }
         camera.SetPerspective(fov * zoom, aspectRatio);
+    }
+
+    void CameraController::OnMouseMove(const double xpos, const double ypos) {
+        if (!cursorMode) return;
+
+        if (firstClick) {
+            lastX = xpos;
+            lastY = ypos;
+            firstClick = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+        lastX = xpos;
+        lastY = ypos;
+
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+
+        yaw += xoffset;
+        pitch += yoffset;
+
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        direction.y = sin(glm::radians(pitch));
+        direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        camera.SetOrientation(glm::normalize(direction));
+    }
+
+    void CameraController::OnKeyPress(const int keyCode, const Action action) {
+        if (keyCode == Keyboard::C && action == Action::Press) {
+            cursorMode = !cursorMode;
+            firstClick = true;
+            if (cursorMode) {
+                Input::SetCursorMode(GLFW_CURSOR_DISABLED);
+            } else {
+                Input::SetCursorMode(GLFW_CURSOR_NORMAL);
+            }
+        }
     }
 }

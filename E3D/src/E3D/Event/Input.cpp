@@ -31,4 +31,8 @@ namespace E3D {
     float Input::GetMouseY() {
         return GetMousePosition().y;
     }
+
+    void Input::SetCursorMode(const int mode) {
+        glfwSetInputMode(window, GLFW_CURSOR, mode);
+    }
 }

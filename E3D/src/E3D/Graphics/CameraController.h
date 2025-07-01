@@ -16,14 +16,20 @@ namespace E3D {
     private:
         void OnResize(int width, int height);
         void OnScroll(double offset);
+        void OnMouseMove(double xpos, double ypos);
+        void OnKeyPress(int keyCode, Action action);
 
     private:
         Camera camera;
 
-        float sensitivity = 100.0f;
+        float sensitivity = 0.1f;
         float baseSpeed = 10.0f;
         float boostSpeed = 40.0f;
+
         bool firstClick = true;
+        double lastX = 0, lastY = 0;
+        float yaw, pitch;
+        bool cursorMode = false;
 
         float aspectRatio;
         float fov;
@@ -31,5 +37,7 @@ namespace E3D {
 
         ListenerHandle<EventType::WindowResize> wrHandle;
         ListenerHandle<EventType::MouseScroll> sHandle;
+        ListenerHandle<EventType::MouseMoved> mHandle;
+        ListenerHandle<EventType::KeyboardInput> kHandle;
     };
 }
