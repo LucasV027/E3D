@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "Camera.h"
 #include "E3D/Event/EventSystem.h"
 
@@ -18,7 +16,7 @@ namespace E3D {
     private:
         void OnResize(int width, int height);
         void OnScroll(double offset);
-        void OnMouseMove(double xpos, double ypos);
+        void OnMouseMove(double xPos, double yPos);
         void OnKeyPress(int keyCode, Action action);
 
     private:

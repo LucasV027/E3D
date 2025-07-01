@@ -1,7 +1,5 @@
 #include "CameraController.h"
 
-#include <iostream>
-
 #include "E3D/Event/Input.h"
 #include "E3D/Event/KeyCode.h"
 #include "GLFW/glfw3.h"
@@ -11,6 +9,10 @@ namespace E3D {
         aspectRatio(aspectRatio),
         fov(fovDeg) {
         camera.SetPerspective(fov * zoom, aspectRatio);
+
+        const auto direction = camera.GetOrientation();
+        pitch = glm::degrees(std::asin(direction.y));
+        yaw = glm::degrees(std::atan2(direction.z, direction.x));
 
         events.Subscribe<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
         events.Subscribe<EventType::MouseScroll>(BIND_EVENT_FN(OnScroll));
@@ -59,25 +61,25 @@ namespace E3D {
         camera.SetPerspective(fov * zoom, aspectRatio);
     }
 
-    void CameraController::OnMouseMove(const double xpos, const double ypos) {
+    void CameraController::OnMouseMove(const double xPos, const double yPos) {
         if (!cursorMode) return;
 
         if (firstClick) {
-            lastX = xpos;
-            lastY = ypos;
+            lastX = xPos;
+            lastY = yPos;
             firstClick = false;
         }
 
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos;
-        lastX = xpos;
-        lastY = ypos;
+        float xOffset = xPos - lastX;
+        float yOffset = lastY - yPos;
+        lastX = xPos;
+        lastY = yPos;
 
-        xoffset *= sensitivity;
-        yoffset *= sensitivity;
+        xOffset *= sensitivity;
+        yOffset *= sensitivity;
 
-        yaw += xoffset;
-        pitch += yoffset;
+        yaw += xOffset;
+        pitch += yOffset;
 
         if (pitch > 89.0f)
             pitch = 89.0f;
