@@ -2,9 +2,6 @@
 
 #include <E3D.h>
 
-#include "E3D/Graphics/Camera.h"
-#include "E3D/Graphics/CameraController.h"
-
 class DefaultScene final : public E3D::Scene {
 public:
     DefaultScene();
@@ -19,6 +16,7 @@ private:
     E3D::IndexBuffer ibo;
     E3D::VertexArray vao;
     E3D::Program program;
+    std::unique_ptr<E3D::Texture> texture;
 
     E3D::CameraController controller;
 
@@ -33,30 +31,36 @@ private:
     const std::filesystem::path fsPath = ASSETS_DIR "/cube.frag";
     const std::filesystem::path vsPath = ASSETS_DIR "/cube.vert";
 
-    static constexpr float CUBE_COLOR[] = {
-        0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f,
-        0.5f, -0.5f, 0.5f, 0.f, 1.f, 0.f,
-        -0.5f, -0.5f, 0.5f, 0.f, 0.f, 1.f,
-        -0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f,
-        0.5f, 0.5f, -0.5f, 1.f, 0.f, 1.f,
-        0.5f, 0.5f, 0.5f, 0.f, 1.f, 1.f,
-        -0.5f, 0.5f, 0.5f, 1.f, 0.64f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 1.f, 0.75f, 0.79f
+    static constexpr float CUBE[] = {
+        // Position (3) | Color (3) | UV (2)
+        -0.5f, -0.5f, 0.5f, 1.f, 0.f, 0.f, 0.f, 0.f,
+        0.5f, -0.5f, 0.5f, 0.f, 1.f, 0.f, 1.f, 0.f,
+        0.5f, 0.5f, 0.5f, 0.f, 0.f, 1.f, 1.f, 1.f,
+        -0.5f, 0.5f, 0.5f, 1.f, 1.f, 0.f, 0.f, 1.f,
+        0.5f, -0.5f, -0.5f, 1.f, 0.f, 1.f, 0.f, 0.f,
+        -0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f, 0.f,
+        -0.5f, 0.5f, -0.5f, 1.f, 0.6f, 0.f, 1.f, 1.f,
+        0.5f, 0.5f, -0.5f, 1.f, 0.7f, 0.8f, 0.f, 1.f,
+        -0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, 0.f,
+        -0.5f, -0.5f, 0.5f, 0.f, 1.f, 0.f, 1.f, 0.f,
+        -0.5f, 0.5f, 0.5f, 0.f, 0.f, 1.f, 1.f, 1.f,
+        -0.5f, 0.5f, -0.5f, 1.f, 1.f, 0.f, 0.f, 1.f,
+        0.5f, -0.5f, 0.5f, 1.f, 0.f, 1.f, 0.f, 0.f,
+        0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f, 0.f,
+        0.5f, 0.5f, -0.5f, 1.f, 0.6f, 0.f, 1.f, 1.f,
+        0.5f, 0.5f, 0.5f, 1.f, 0.7f, 0.8f, 0.f, 1.f,
+        -0.5f, 0.5f, 0.5f, 1.f, 0.f, 0.f, 0.f, 0.f,
+        0.5f, 0.5f, 0.5f, 0.f, 1.f, 0.f, 1.f, 0.f,
+        0.5f, 0.5f, -0.5f, 0.f, 0.f, 1.f, 1.f, 1.f,
+        -0.5f, 0.5f, -0.5f, 1.f, 1.f, 0.f, 0.f, 1.f,
+        -0.5f, -0.5f, -0.5f, 1.f, 0.f, 1.f, 0.f, 0.f,
+        0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f, 0.f,
+        0.5f, -0.5f, 0.5f, 1.f, 0.6f, 0.f, 1.f, 1.f,
+        -0.5f, -0.5f, 0.5f, 1.f, 0.7f, 0.8f, 0.f, 1.f,
     };
 
-    static constexpr unsigned int CUBE_COLOR_INDICES[] = {
-        1, 2, 3,
-        4, 7, 6,
-        4, 5, 1,
-        1, 5, 6,
-        6, 7, 3,
-        4, 0, 3,
-        0, 1, 3,
-        5, 4, 6,
-        0, 4, 1,
-        2, 1, 6,
-        2, 6, 3,
-        7, 4, 3
+    static constexpr unsigned int CUBE_INDICES[] = {
+        0, 1, 2, 2, 3, 0, 4, 5, 6, 6, 7, 4, 8, 9, 10, 10, 11, 8,
+        12, 13, 14, 14, 15, 12, 16, 17, 18, 18, 19, 16, 20, 21, 22, 22, 23, 20
     };
 };
-

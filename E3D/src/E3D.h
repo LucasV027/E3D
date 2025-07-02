@@ -10,7 +10,13 @@
 #include "E3D/Graphics/Program.h"
 #include "E3D/Graphics/VertexArray.h"
 #include "E3D/Graphics/VertexBuffer.h"
+#include "E3D/Graphics/Texture.h"
+#include "E3D/Graphics/Camera.h"
+#include "E3D/Graphics/CameraController.h"
 
 #include "E3D/Scene/Scene.h"
 
 #include "E3D/Event/EventSystem.h"
+#include "E3D/Event/Input.h"
+#include "E3D/Event/KeyCode.h"
+

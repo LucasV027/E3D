@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "glad/glad.h"
+#include "stb_image.h"
 
 namespace E3D {
     namespace Helper {
@@ -106,6 +107,20 @@ namespace E3D {
 
     Texture::~Texture() {
         glDeleteTextures(1, &id);
+    }
+
+    void Texture::LoadFromFile(const std::filesystem::path& path) const {
+        int width, height, bpp;
+        int desiredBPP = Helper::TextureFormatToBPP(spec.format);
+
+        auto* buffer = stbi_load(path.string().c_str(), &width, &height, &bpp, desiredBPP);
+
+        if (!buffer) {
+            throw std::runtime_error("Failed to load " + path.string() + " texture");
+        }
+
+        Submit(buffer, width * height * desiredBPP);
+        stbi_image_free(buffer);
     }
 
     void Texture::Bind(const unsigned int slot) const {

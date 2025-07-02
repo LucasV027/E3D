@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 
 namespace E3D {
     enum class TextureType { Texture2D };
@@ -29,6 +30,7 @@ namespace E3D {
         explicit Texture(const TextureSpecification& spec);
         ~Texture();
 
+        void LoadFromFile(const std::filesystem::path& path) const;
         void Submit(const void* data, unsigned int size) const;
 
         void Bind(unsigned int slot = 0) const;
