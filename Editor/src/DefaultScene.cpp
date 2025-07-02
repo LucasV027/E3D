@@ -21,12 +21,12 @@ DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
 
     E3D::RenderCommand::SetCullFace(true);
 
-    E3D::TextureSpecification specification;
+    E3D::Texture::Specification specification;
     specification.width = 64;
     specification.height = 64;
-    specification.format = E3D::TextureFormat::RGB8;
-    specification.wrapModeS = E3D::WrapMode::Repeat;
-    specification.wrapModeT = E3D::WrapMode::Repeat;
+    specification.format = E3D::Texture::Format::RGB8;
+    specification.wrapModeS = E3D::Texture::WrapMode::Repeat;
+    specification.wrapModeT = E3D::Texture::WrapMode::Repeat;
     texture = std::make_unique<E3D::Texture>(specification);
     texture->LoadFromFile(ASSETS_DIR "/stone.png");
 

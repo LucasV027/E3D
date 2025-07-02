@@ -2,32 +2,33 @@
 #include <filesystem>
 
 namespace E3D {
-    enum class TextureType { Texture2D };
-
-    enum class WrapMode { Clamp, Repeat, ClampEdge, ClampBorder };
-
-    enum class FilterMode { Nearest, Linear };
-
-    enum class TextureFormat { R8, RGB8, RGBA8, RGBA32F };
-
-    struct TextureSpecification {
-        int width = 1;
-        int height = 1;
-
-        TextureType type = TextureType::Texture2D;
-        TextureFormat format = TextureFormat::RGBA8;
-        WrapMode wrapModeT = WrapMode::Clamp;
-        WrapMode wrapModeS = WrapMode::Clamp;
-        FilterMode minFilter = FilterMode::Nearest;
-        FilterMode magFilter = FilterMode::Linear;
-
-        bool generateMipMaps = false;
-        FilterMode minMipMapFilter = FilterMode::Linear;
-    };
-
     class Texture {
     public:
-        explicit Texture(const TextureSpecification& spec);
+        enum class Type { Texture2D };
+
+        enum class WrapMode { Clamp, Repeat, ClampEdge, ClampBorder };
+
+        enum class FilterMode { Nearest, Linear };
+
+        enum class Format { R8, RGB8, RGBA8, RGBA32F };
+
+        struct Specification {
+            int width = 1;
+            int height = 1;
+
+            Type type = Type::Texture2D;
+            Format format = Format::RGBA8;
+            WrapMode wrapModeT = WrapMode::Clamp;
+            WrapMode wrapModeS = WrapMode::Clamp;
+            FilterMode minFilter = FilterMode::Nearest;
+            FilterMode magFilter = FilterMode::Linear;
+
+            bool generateMipMaps = false;
+            FilterMode minMipMapFilter = FilterMode::Linear;
+        };
+
+    public:
+        explicit Texture(const Specification& spec);
         ~Texture();
 
         void LoadFromFile(const std::filesystem::path& path) const;
@@ -38,7 +39,7 @@ namespace E3D {
 
     private:
         unsigned int id;
-        TextureSpecification spec;
+        Specification spec;
     };
 }
 
