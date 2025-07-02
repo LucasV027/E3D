@@ -12,12 +12,25 @@ public:
     void OnImGuiRender() override;
 
 private:
-    E3D::VertexBuffer vbo;
-    E3D::IndexBuffer ibo;
-    E3D::VertexArray vao;
-    E3D::Program program;
-    std::unique_ptr<E3D::Texture> texture;
+    // Cube
+    E3D::VertexBuffer cubeVBO;
+    E3D::IndexBuffer cubeIBO;
+    E3D::VertexArray cubeVAO;
+    E3D::Program cubeProgram;
+    std::unique_ptr<E3D::Texture> cubeTexture;
+    const std::filesystem::path cubeFsPath = ASSETS_DIR "/cube.frag";
+    const std::filesystem::path cubeVsPath = ASSETS_DIR "/cube.vert";
 
+    // Post
+    E3D::VertexBuffer quadVBO;
+    E3D::VertexArray quadVAO;
+    E3D::Program quadProgram;
+    const std::filesystem::path quadFsPath = ASSETS_DIR "/post.frag";
+    const std::filesystem::path quadVsPath = ASSETS_DIR "/post.vert";
+
+    std::unique_ptr<E3D::FrameBuffer> fbo;
+
+    // Camera
     E3D::CameraController controller;
 
     // Transforms
@@ -27,10 +40,7 @@ private:
     glm::mat4 rotationMatrix = glm::mat4(1.0f);
     glm::vec3 scale = glm::vec3(1.0f);
 
-    // Data
-    const std::filesystem::path fsPath = ASSETS_DIR "/cube.frag";
-    const std::filesystem::path vsPath = ASSETS_DIR "/cube.vert";
-
+    // Geometry
     static constexpr float CUBE[] = {
         // Position (3) | Color (3) | UV (2)
         -0.5f, -0.5f, 0.5f, 1.f, 0.f, 0.f, 0.f, 0.f,
@@ -60,7 +70,21 @@ private:
     };
 
     static constexpr unsigned int CUBE_INDICES[] = {
-        0, 1, 2, 2, 3, 0, 4, 5, 6, 6, 7, 4, 8, 9, 10, 10, 11, 8,
-        12, 13, 14, 14, 15, 12, 16, 17, 18, 18, 19, 16, 20, 21, 22, 22, 23, 20
+        0, 1, 2, 2, 3, 0,
+        4, 5, 6, 6, 7, 4,
+        8, 9, 10, 10, 11, 8,
+        12, 13, 14, 14, 15, 12,
+        16, 17, 18, 18, 19, 16,
+        20, 21, 22, 22, 23, 20
+    };
+
+    static constexpr float QUAD[] = {
+        // Position (2) | UV (2)
+        -1.0f,  1.0f,  0.0f, 1.0f,
+        -1.0f, -1.0f,  0.0f, 0.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+        -1.0f,  1.0f,  0.0f, 1.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+         1.0f,  1.0f,  1.0f, 1.0f
     };
 };

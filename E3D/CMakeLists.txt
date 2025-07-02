@@ -25,6 +25,8 @@ add_library(E3D STATIC
         src/E3D/Graphics/Camera.h
         src/E3D/Graphics/CameraController.cpp
         src/E3D/Graphics/CameraController.h
+        src/E3D/Graphics/FrameBuffer.cpp
+        src/E3D/Graphics/FrameBuffer.h
         src/E3D/Graphics/Texture.cpp
         src/E3D/Graphics/Texture.h
         src/E3D/Event/EventSystem.cpp

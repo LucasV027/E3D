@@ -13,6 +13,7 @@
 #include "E3D/Graphics/Texture.h"
 #include "E3D/Graphics/Camera.h"
 #include "E3D/Graphics/CameraController.h"
+#include "E3D/Graphics/FrameBuffer.h"
 
 #include "E3D/Scene/Scene.h"
 
