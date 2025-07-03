@@ -23,6 +23,8 @@ add_library(E3D STATIC
         src/E3D/Graphics/Program.h
         src/E3D/Graphics/Camera.cpp
         src/E3D/Graphics/Camera.h
+        src/E3D/Graphics/Mesh.cpp
+        src/E3D/Graphics/Mesh.h
         src/E3D/Graphics/CameraController.cpp
         src/E3D/Graphics/CameraController.h
         src/E3D/Graphics/FrameBuffer.cpp

@@ -26,6 +26,10 @@ namespace E3D {
         vao.Unbind();
     }
 
+    void RenderCommand::Draw(const Mesh& mesh, const Program& program) {
+        Draw(mesh.vao, mesh.ibo, program);
+    }
+
     void RenderCommand::SetViewPort(const int x, const int y, const int width, const int height) {
         glViewport(x, y, width, height);
     }
