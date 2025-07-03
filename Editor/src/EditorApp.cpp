@@ -8,18 +8,30 @@
 
 class EditorApp : public E3D::Application {
 public:
-    explicit EditorApp(const int scene) : Application("Editor", 1280, 720) {
-        std::cout << "Selected scene " << scene << std::endl;
-        switch (scene) {
-        case 1: SetScene(new MeshScene());
+    explicit EditorApp(const int sceneId) : Application("Editor", 1280, 720) {
+        std::cout << "Selected scene: " << sceneId << std::endl;
+
+        switch (sceneId) {
+        case 1:
+            SetScene(new MeshScene());
             break;
         default:
             SetScene(new DefaultScene());
+            break;
         }
     }
 };
 
 E3D::Application* E3D::CreateApplication(int argc, char** argv) {
-    // atoi returns 0 when it fails
-    return new EditorApp(atoi(argv[1]));
+    int sceneId = 0;
+
+    if (argc > 1) {
+        try {
+            sceneId = std::stoi(argv[1]);
+        } catch (const std::exception& e) {
+            std::cerr << "Invalid argument: " << argv[1] << ". Falling back to scene 0.\n";
+        }
+    }
+
+    return new EditorApp(sceneId);
 }
