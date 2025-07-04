@@ -17,7 +17,12 @@ namespace E3D {
     bool Program::Attach(ShaderType type, const fs::path& filepath) const {
         const auto shaderSource = ReadFile(filepath);
         const auto shader = glCreateShader(static_cast<GLenum>(type));
-        if (!CompileShader(shader, shaderSource)) return false;
+
+        if (!CompileShader(shader, shaderSource)) {
+            glDeleteShader(shader);
+            return false;
+        }
+
         glAttachShader(id, shader);
         glDeleteShader(shader);
         return true;
