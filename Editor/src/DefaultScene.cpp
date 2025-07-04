@@ -1,7 +1,5 @@
 #include "DefaultScene.h"
 
-#include <iostream>
-
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -17,13 +15,9 @@ DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
 
     cubeIBO.Load(CUBE_INDICES, 36);
 
-    cubeProgram.Init();
-    (void)cubeProgram.Attach(E3D::ShaderType::Vertex, cubeVsPath);
-    (void)cubeProgram.Attach(E3D::ShaderType::Fragment, cubeFsPath);
-    (void)cubeProgram.Link();
-
-    cubeProgram.Bind();
-    cubeProgram.SetUniform("texSampler", 0);
+    cubeProgram = E3D::Program::Create(cubeVsPath, cubeVsPath);
+    cubeProgram->Bind();
+    cubeProgram->SetUniform("texSampler", 0);
 
     E3D::Texture::Specification specification;
     specification.width = 64;
@@ -46,13 +40,9 @@ DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
     quadVBO.Load(QUAD, sizeof(QUAD));
     quadVAO.AddBuffer(quadVBO, {{E3D::AttributeType::Float, 2}, {E3D::AttributeType::Float, 2}});
 
-    quadProgram.Init();
-    (void)quadProgram.Attach(E3D::ShaderType::Vertex, quadVsPath);
-    (void)quadProgram.Attach(E3D::ShaderType::Fragment, quadFsPath);
-    (void)quadProgram.Link();
-
-    quadProgram.Bind();
-    quadProgram.SetUniform("screenTexture", 0);
+    quadProgram = E3D::Program::Create(quadVsPath, quadVsPath);
+    quadProgram->Bind();
+    quadProgram->SetUniform("screenTexture", 0);
 
     ////////////////////// Renderer //////////////////////
     E3D::RenderCommand::SetCullFace(true);
@@ -67,8 +57,8 @@ void DefaultScene::OnUpdate(const float ts) {
     model = rotationMatrix;
     model = glm::scale(model, scale);
 
-    cubeProgram.Bind();
-    cubeProgram.SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * model);
+    cubeProgram->Bind();
+    cubeProgram->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * model);
 
     fbo->Bind();
     E3D::RenderCommand::SetViewPort(0, 0, 1280, 720);
@@ -77,7 +67,7 @@ void DefaultScene::OnUpdate(const float ts) {
     cubeTexture->Bind();
     E3D::RenderCommand::SetDepthTest(true);
     E3D::RenderCommand::Clear(0.1f, 0.1f, 0.1f);
-    E3D::RenderCommand::Draw(cubeVAO, cubeIBO, cubeProgram);
+    E3D::RenderCommand::Draw(cubeVAO, cubeIBO, *cubeProgram);
 
     E3D::FrameBuffer::Default();
     E3D::RenderCommand::SetViewPort(0, 0, 1280, 720);
@@ -85,7 +75,7 @@ void DefaultScene::OnUpdate(const float ts) {
     // Second pass
     fbo->BindColorTexture();
     E3D::RenderCommand::SetDepthTest(false);
-    E3D::RenderCommand::Draw(quadVAO, 0, 6, quadProgram);
+    E3D::RenderCommand::Draw(quadVAO, 0, 6, *quadProgram);
 }
 
 void DefaultScene::OnImGuiRender() {

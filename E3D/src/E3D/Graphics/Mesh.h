@@ -8,7 +8,7 @@
 #include "E3D/Core/Base.h"
 
 namespace E3D {
-    class Mesh : public SharedOnly<Mesh> {
+    class Mesh : public RefOnly<Mesh> {
     public:
         explicit Mesh(InternalTag) {}
         friend class RenderCommand;

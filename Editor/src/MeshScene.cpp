@@ -15,10 +15,7 @@ MeshScene::MeshScene(): controller(16.0f / 9.0f, 90.f) {
         CUBE_INDICES
     );
 
-    program.Init();
-    program.Attach(E3D::ShaderType::Vertex, cubeVsPath);
-    program.Attach(E3D::ShaderType::Fragment, cubeFsPath);
-    program.Link();
+    program = E3D::Program::Create(cubeVsPath, cubeFsPath);
 }
 
 MeshScene::~MeshScene() = default;
@@ -26,11 +23,11 @@ MeshScene::~MeshScene() = default;
 void MeshScene::OnUpdate(const float ts) {
     controller.OnUpdate(ts);
 
-    program.Bind();
-    program.SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView());
+    program->Bind();
+    program->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView());
 
     E3D::RenderCommand::Clear(0.1f, 0.1f, 0.1f);
-    E3D::RenderCommand::Draw(*mesh, program);
+    E3D::RenderCommand::Draw(*mesh, *program);
 }
 
 void MeshScene::OnImGuiRender() {

@@ -16,7 +16,7 @@ private:
     E3D::VertexBuffer cubeVBO;
     E3D::IndexBuffer cubeIBO;
     E3D::VertexArray cubeVAO;
-    E3D::Program cubeProgram;
+    E3D::Ref<E3D::Program> cubeProgram;
     std::unique_ptr<E3D::Texture> cubeTexture;
     const std::filesystem::path cubeFsPath = ASSETS_DIR "/cube.frag";
     const std::filesystem::path cubeVsPath = ASSETS_DIR "/cube.vert";
@@ -24,7 +24,7 @@ private:
     // Post
     E3D::VertexBuffer quadVBO;
     E3D::VertexArray quadVAO;
-    E3D::Program quadProgram;
+    E3D::Ref<E3D::Program> quadProgram;
     const std::filesystem::path quadFsPath = ASSETS_DIR "/post.frag";
     const std::filesystem::path quadVsPath = ASSETS_DIR "/post.vert";
 
@@ -80,11 +80,11 @@ private:
 
     static constexpr float QUAD[] = {
         // Position (2) | UV (2)
-        -1.0f,  1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f,  0.0f, 0.0f,
-         1.0f, -1.0f,  1.0f, 0.0f,
-        -1.0f,  1.0f,  0.0f, 1.0f,
-         1.0f, -1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f,  1.0f, 1.0f
+        -1.0f, 1.0f, 0.0f, 1.0f,
+        -1.0f, -1.0f, 0.0f, 0.0f,
+        1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f, 1.0f, 0.0f, 1.0f,
+        1.0f, -1.0f, 1.0f, 0.0f,
+        1.0f, 1.0f, 1.0f, 1.0f
     };
 };

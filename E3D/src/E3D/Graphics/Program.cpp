@@ -6,7 +6,7 @@
 #include "glad/glad.h"
 
 namespace E3D {
-    Program::Program() : id(0) {}
+    Program::Program(InternalTag) : id(0) {}
 
     Program::~Program() {
         glDeleteProgram(id);
@@ -36,6 +36,20 @@ namespace E3D {
             return false;
         }
         return true;
+    }
+
+    Ref<Program> Program::Create(const fs::path& vsPath, const fs::path& fsPath) {
+        auto program = CreateRef<Program>(InternalTag{});
+        bool success = true;
+        program->Init();
+        success &= program->Attach(ShaderType::Vertex, vsPath);
+        success &= program->Attach(ShaderType::Fragment, fsPath);
+        success &= program->Link();
+        if (!success) {
+            std::cerr << "Program creation failed" << std::endl;
+            return nullptr;
+        }
+        return program;
     }
 
     void Program::Bind() const {

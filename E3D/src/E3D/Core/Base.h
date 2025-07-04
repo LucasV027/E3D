@@ -23,7 +23,7 @@ namespace E3D {
     }
 
     template <typename T>
-    class SharedOnly : std::enable_shared_from_this<T> {
+    class RefOnly : std::enable_shared_from_this<T> {
     protected:
         struct InternalTag {
             explicit InternalTag() = default;

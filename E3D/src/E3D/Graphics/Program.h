@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <unordered_map>
 
+#include "E3D/Core/Base.h"
 #include "glad/glad.h"
 #include "glm/glm.hpp"
 
@@ -14,14 +15,13 @@ namespace E3D {
         Vertex = GL_VERTEX_SHADER,
     };
 
-    class Program {
+    class Program : RefOnly<Program> {
     public:
-        Program();
+        explicit Program(InternalTag);
         ~Program();
 
-        void Init();
-        bool Attach(ShaderType type, const fs::path& filepath) const;
-        bool Link() const;
+        static Ref<Program> Create(const fs::path& vsPath, const fs::path& fsPath);
+
         void Bind() const;
         static void Unbind();
 
@@ -29,15 +29,21 @@ namespace E3D {
         void SetUniform(const std::string& name, const T& value) {
             int location = GetUniformLocation(name);
 
-            if constexpr (std::is_same_v<T, float>)             { glUniform1f(location, value); }
-            else if constexpr (std::is_same_v<T, int>)          { glUniform1i(location, value); }
-            else if constexpr (std::is_same_v<T, unsigned int>) { glUniform1ui(location, value); }
-            else if constexpr (std::is_same_v<T, glm::vec2>)    { glUniform2fv(location, 1, &value[0]); }
-            else if constexpr (std::is_same_v<T, glm::vec3>)    { glUniform3fv(location, 1, &value[0]); }
-            else if constexpr (std::is_same_v<T, glm::vec4>)    { glUniform4fv(location, 1, &value[0]); }
-            else if constexpr (std::is_same_v<T, glm::mat4>)    { glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]); }
-            else { static_assert([] { return false; }(), "Unsupported uniform type"); }
+            if constexpr (std::is_same_v<T, float>) { glUniform1f(location, value); } else if constexpr (std::is_same_v<
+                T, int>) { glUniform1i(location, value); } else if constexpr (std::is_same_v<
+                T, unsigned int>) { glUniform1ui(location, value); } else if constexpr (std::is_same_v<
+                T, glm::vec2>) { glUniform2fv(location, 1, &value[0]); } else if constexpr (std::is_same_v<
+                T, glm::vec3>) { glUniform3fv(location, 1, &value[0]); } else if constexpr (std::is_same_v<
+                T, glm::vec4>) { glUniform4fv(location, 1, &value[0]); } else if constexpr (std::is_same_v<
+                T, glm::mat4>) { glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]); } else {
+                static_assert([] { return false; }(), "Unsupported uniform type");
+            }
         }
+
+    private:
+        void Init();
+        bool Attach(ShaderType type, const fs::path& filepath) const;
+        bool Link() const;
 
     private:
         int GetUniformLocation(const std::string& name) const;

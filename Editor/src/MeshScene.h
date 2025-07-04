@@ -12,7 +12,7 @@ public:
 
 private:
     E3D::Ref<E3D::Mesh> mesh;
-    E3D::Program program;
+    E3D::Ref<E3D::Program> program;
     E3D::CameraController controller;
 
     const std::vector<float> CUBE = {
