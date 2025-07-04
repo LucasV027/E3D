@@ -39,7 +39,7 @@ namespace E3D {
         glBindBuffer(GL_ARRAY_BUFFER, id);
     }
 
-    void VertexBuffer::Unbind() {
+    void VertexBuffer::Unbind() const {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 }

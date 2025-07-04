@@ -64,7 +64,7 @@ namespace E3D {
         void Load(const void* data, unsigned int size);
 
         void Bind() const;
-        static void Unbind();
+        void Unbind() const;
 
     private:
         unsigned int id;

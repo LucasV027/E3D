@@ -43,7 +43,7 @@ namespace E3D {
         glBindVertexArray(vao);
     }
 
-    void VertexArray::Unbind() {
+    void VertexArray::Unbind() const {
         glBindVertexArray(0);
     }
 }

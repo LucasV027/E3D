@@ -20,6 +20,6 @@ namespace E3D {
         vbo.Load(data.vertices.data(), data.vertices.size() * sizeof(float));
         vao.AddBuffer(vbo, data.layout);
         ibo.Load(data.indices.data(), data.indices.size());
-        VertexArray::Unbind();
+        vao.Unbind();
     }
 }

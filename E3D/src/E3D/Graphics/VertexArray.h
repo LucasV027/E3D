@@ -13,7 +13,7 @@ namespace E3D {
         void AddBuffer(const VertexBuffer& vbo, const VertexBufferLayout& layout) const;
 
         void Bind() const;
-        static void Unbind();
+        void Unbind() const;
 
     private:
         unsigned int vao;
