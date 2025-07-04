@@ -10,6 +10,7 @@
 #include "E3D/Graphics/Program.h"
 #include "E3D/Graphics/VertexArray.h"
 #include "E3D/Graphics/VertexBuffer.h"
+#include "E3D/Graphics/RenderBuffer.h"
 #include "E3D/Graphics/Texture.h"
 #include "E3D/Graphics/Camera.h"
 #include "E3D/Graphics/Mesh.h"

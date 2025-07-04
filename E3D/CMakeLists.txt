@@ -31,6 +31,8 @@ add_library(E3D STATIC
         src/E3D/Graphics/FrameBuffer.h
         src/E3D/Graphics/Texture.cpp
         src/E3D/Graphics/Texture.h
+        src/E3D/Graphics/RenderBuffer.cpp
+        src/E3D/Graphics/RenderBuffer.h
         src/E3D/Event/EventSystem.cpp
         src/E3D/Event/EventSystem.h
         src/E3D/Event/Input.cpp

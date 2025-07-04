@@ -28,7 +28,9 @@ private:
     const std::filesystem::path quadFsPath = ASSETS_DIR "/post.frag";
     const std::filesystem::path quadVsPath = ASSETS_DIR "/post.vert";
 
-    std::unique_ptr<E3D::FrameBuffer> fbo;
+    E3D::Ref<E3D::FrameBuffer> fbo;
+    E3D::Ref<E3D::Texture> texAttachment;
+    E3D::Ref<E3D::RenderBuffer> rboAttachment;
 
     // Camera
     E3D::CameraController controller;

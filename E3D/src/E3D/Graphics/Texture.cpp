@@ -105,6 +105,8 @@ namespace E3D {
         }
     }
 
+    unsigned int Texture::Id() const { return id; }
+
     Texture::~Texture() {
         glDeleteTextures(1, &id);
     }
@@ -131,4 +133,7 @@ namespace E3D {
     void Texture::Unbind() const {
         glBindTexture(Helper::TextureTypeToGL(spec.type), 0);
     }
+
+    int Texture::Width() const { return spec.width; }
+    int Texture::Height() const { return spec.height; }
 }
