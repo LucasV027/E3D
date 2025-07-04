@@ -11,7 +11,7 @@ public:
     void OnImGuiRender() override;
 
 private:
-    std::unique_ptr<E3D::Mesh> mesh;
+    E3D::Ref<E3D::Mesh> mesh;
     E3D::Program program;
     E3D::CameraController controller;
 

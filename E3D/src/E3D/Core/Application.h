@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Base.h"
 #include "E3D/Scene/Scene.h"
 #include "Window.h"
 #include "E3D/Event/EventSystem.h"
@@ -21,7 +22,7 @@ namespace E3D {
         void OnResize(int width, int height);
 
     private:
-        std::unique_ptr<Window> window;
+        Scope<Window> window;
         ScopedEventListener handler;
         Scene* scene = nullptr;
         bool running = true;

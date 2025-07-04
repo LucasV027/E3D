@@ -12,7 +12,7 @@
 
 namespace E3D {
     Application::Application(std::string title, int width, int height) {
-        window = std::make_unique<Window>(std::move(title), width, height);
+        window = CreateScope<Window>(std::move(title), width, height);
         Input::Init(window->Handle());
         EventSystem::Init(window->Handle());
         handler.Subscribe<EventType::WindowClose>(BIND_EVENT_FN(OnClose));

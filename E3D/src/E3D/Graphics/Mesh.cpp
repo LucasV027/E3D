@@ -1,10 +1,10 @@
 #include "Mesh.h"
 
 namespace E3D {
-    std::unique_ptr<Mesh> Mesh::Create(const std::vector<float>& vertices,
-                                       const VertexBufferLayout& layout,
-                                       const std::vector<unsigned int>& indices) {
-        auto mesh = std::make_unique<Mesh>();
+    Ref<Mesh> Mesh::Create(const std::vector<float>& vertices,
+                           const VertexBufferLayout& layout,
+                           const std::vector<unsigned int>& indices) {
+        auto mesh = CreateRef<Mesh>(InternalTag{});
         mesh->data = {
             .vertices = vertices,
             .layout = layout,

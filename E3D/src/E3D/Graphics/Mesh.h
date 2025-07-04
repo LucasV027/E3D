@@ -1,27 +1,26 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
+#include "E3D/Core/Base.h"
 
 namespace E3D {
-    class Mesh {
+    class Mesh : public SharedOnly<Mesh> {
     public:
+        explicit Mesh(InternalTag) {}
         friend class RenderCommand;
 
-        Mesh() = default;
-
-        static std::unique_ptr<Mesh> Create(const std::vector<float>& vertices,
-                                            const VertexBufferLayout& layout,
-                                            const std::vector<unsigned int>& indices);
+        static Ref<Mesh> Create(const std::vector<float>& vertices,
+                                const VertexBufferLayout& layout,
+                                const std::vector<unsigned int>& indices);
 
     private:
         void SetupMesh();
 
-    public:
+    private:
         VertexArray vao;
         VertexBuffer vbo;
         IndexBuffer ibo;
@@ -32,4 +31,5 @@ namespace E3D {
             std::vector<unsigned int> indices;
         } data;
     };
-}
+};
+
