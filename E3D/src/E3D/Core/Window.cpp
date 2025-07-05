@@ -40,6 +40,9 @@ namespace E3D {
                 panic("Failed to initialize GLFW");
 
             glfwSetErrorCallback(GLFWErrorCallback);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         }
 
         window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
@@ -55,4 +58,3 @@ namespace E3D {
         std::cerr << "GLFW Error (" << error << "): " << description << std::endl;
     }
 }
-
