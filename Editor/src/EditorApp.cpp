@@ -1,12 +1,12 @@
 #include <E3D.h>
 #include <E3D/Core/EntryPoint.h>
 
-#include "DefaultScene.h"
+#include "MenuLayer.h"
 
 class EditorApp : public E3D::Application {
 public:
     explicit EditorApp() : Application("Editor", 1280, 720) {
-        SetScene(new DefaultScene());
+        Push(new MenuLayer());
     }
 };
 

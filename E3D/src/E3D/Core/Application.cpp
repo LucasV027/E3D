@@ -11,7 +11,12 @@
 #include "E3D/Graphics/RenderCommand.h"
 
 namespace E3D {
+    Application* Application::instance = nullptr;
+
     Application::Application(std::string title, int width, int height) {
+        if (instance) panic("Application already exists");
+        instance = this;
+
         window = CreateScope<Window>(std::move(title), width, height);
         Input::Init(window->Handle());
         EventSystem::Init(window->Handle());
@@ -26,12 +31,16 @@ namespace E3D {
 
     Application::~Application() {
         UI::Shutdown();
-        delete scene;
     }
 
-    void Application::SetScene(Scene* newScene) {
-        delete scene;
-        scene = newScene;
+    Application& Application::Get() { return *instance; }
+
+    void Application::Push(Layer* layer) {
+        layers.PushLayer(layer);
+    }
+
+    void Application::Pop(Layer* layer) {
+        layers.PopLayer(layer);
     }
 
     void Application::Run() const {
@@ -42,16 +51,14 @@ namespace E3D {
             deltaClock.Update();
             window->PollEvents();
 
-            if (scene) {
-                scene->OnUpdate(deltaClock.DeltaTime());
+            for (auto* layer : layers) layer->OnUpdate(deltaClock.DeltaTime());
 
-                UI::BeginFrame();
-                ImGui::Begin("[INFO]");
-                ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
-                scene->OnImGuiRender();
-                ImGui::End();
-                UI::EndFrame();
-            }
+            UI::BeginFrame();
+            ImGui::Begin("[INFO]");
+            ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
+            for (auto* layer : layers) layer->OnImGuiRender();
+            ImGui::End();
+            UI::EndFrame();
 
             window->SwapBuffers();
         }

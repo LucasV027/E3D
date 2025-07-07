@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Base.h"
-#include "E3D/Scene/Scene.h"
+#include "Layer.h"
 #include "Window.h"
 #include "E3D/Event/EventSystem.h"
 
@@ -14,7 +14,10 @@ namespace E3D {
     public:
         Application(std::string title, int width, int height);
         ~Application();
-        void SetScene(Scene* newScene);
+        static Application& Get();
+
+        void Push(Layer* layer);
+        void Pop(Layer* layer);
 
     private:
         void Run() const;
@@ -24,10 +27,11 @@ namespace E3D {
     private:
         Scope<Window> window;
         ScopedEventListener handler;
-        Scene* scene = nullptr;
+        LayerStack layers;
         bool running = true;
 
     private:
+        static Application* instance;
         friend int ::main(int argc, char** argv);
     };
 

@@ -4,6 +4,7 @@
 #include "E3D/Core/Window.h"
 #include "E3D/Core/UI.h"
 #include "E3D/Core/Timer.h"
+#include "E3D/Core/Layer.h"
 
 #include "E3D/Graphics/RenderCommand.h"
 #include "E3D/Graphics/Program.h"
@@ -15,8 +16,6 @@
 #include "E3D/Graphics/Camera.h"
 #include "E3D/Graphics/CameraController.h"
 #include "E3D/Graphics/FrameBuffer.h"
-
-#include "E3D/Scene/Scene.h"
 
 #include "E3D/Event/EventSystem.h"
 #include "E3D/Event/Input.h"

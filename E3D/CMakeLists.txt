@@ -11,8 +11,8 @@ add_library(E3D STATIC
         src/E3D/Core/Base.h
         src/E3D/Core/Timer.h
         src/E3D/Core/Timer.cpp
-
-        src/E3D/Scene/Scene.h
+        src/E3D/Core/Layer.h
+        src/E3D/Core/Layer.cpp
 
         src/E3D/Graphics/RenderCommand.cpp
         src/E3D/Graphics/RenderCommand.h
@@ -40,8 +40,6 @@ add_library(E3D STATIC
         src/E3D/Event/Input.cpp
         src/E3D/Event/Input.h
         src/E3D/Event/KeyCode.h
-
-
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

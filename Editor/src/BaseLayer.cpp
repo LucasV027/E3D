@@ -1,9 +1,9 @@
-#include "DefaultScene.h"
+#include "BaseLayer.h"
 
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
-DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
+BaseLayer::BaseLayer() : controller(16.0f / 9.0f, 90.f) {
     cubeVBO = E3D::VertexBuffer::Create(CUBE, {
                                             {E3D::AttributeType::Float, 3},
                                             {E3D::AttributeType::Float, 3},
@@ -31,9 +31,9 @@ DefaultScene::DefaultScene() : controller(16.0f / 9.0f, 90.f) {
     E3D::RenderCommand::SetCullFace(true);
 }
 
-DefaultScene::~DefaultScene() = default;
+BaseLayer::~BaseLayer() = default;
 
-void DefaultScene::OnUpdate(const float ts) {
+void BaseLayer::OnUpdate(const float ts) {
     controller.OnUpdate(ts);
 
     rotationMatrix = rotate(rotationMatrix, rotationSpeed * ts, normalize(rotationAxis));
@@ -49,7 +49,7 @@ void DefaultScene::OnUpdate(const float ts) {
     E3D::RenderCommand::Draw(*cubeVAO, *cubeIBO, *cubeProgram);
 }
 
-void DefaultScene::OnImGuiRender() {
+void BaseLayer::OnImGuiRender() {
     ImGui::NewLine();
     ImGui::SliderFloat("Rotation Speed", &rotationSpeed, 0.0f, 100.f);
     ImGui::SliderFloat3("Rotation Axis", &rotationAxis.x, -1.0f, 1.0f);

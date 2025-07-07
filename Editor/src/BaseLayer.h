@@ -2,10 +2,10 @@
 
 #include <E3D.h>
 
-class DefaultScene final : public E3D::Scene {
+class BaseLayer final : public E3D::Layer {
 public:
-    DefaultScene();
-    ~DefaultScene() override;
+    BaseLayer();
+    ~BaseLayer() override;
 
     void OnUpdate(float ts) override;
 
