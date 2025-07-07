@@ -6,14 +6,13 @@
 #include "E3D/Core/Timer.h"
 
 #include "E3D/Graphics/RenderCommand.h"
-#include "E3D/Graphics/IndexBuffer.h"
 #include "E3D/Graphics/Program.h"
 #include "E3D/Graphics/VertexArray.h"
-#include "E3D/Graphics/VertexBuffer.h"
+#include "E3D/Graphics/Buffer.h"
+#include "E3D/Graphics/VertexBufferLayout.h"
 #include "E3D/Graphics/RenderBuffer.h"
 #include "E3D/Graphics/Texture.h"
 #include "E3D/Graphics/Camera.h"
-#include "E3D/Graphics/Mesh.h"
 #include "E3D/Graphics/CameraController.h"
 #include "E3D/Graphics/FrameBuffer.h"
 

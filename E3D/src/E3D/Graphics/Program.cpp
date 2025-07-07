@@ -61,7 +61,7 @@ namespace E3D {
         glUseProgram(id);
     }
 
-    void Program::Unbind() {
+    void Program::Unbind() const {
         glUseProgram(0);
     }
 

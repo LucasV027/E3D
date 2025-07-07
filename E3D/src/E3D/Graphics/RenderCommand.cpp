@@ -8,26 +8,12 @@ namespace E3D {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void RenderCommand::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Program& program) {
-        vao.Bind();
-        ibo.Bind();
+    void RenderCommand::Draw(const VertexArray& vao, const Buffer& ibo, const Program& program) {
         program.Bind();
-        glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);
-        program.Unbind();
-        ibo.Unbind();
-        vao.Unbind();
-    }
-
-    void RenderCommand::Draw(const VertexArray& vao, const int first, const int count, const Program& program) {
         vao.Bind();
-        program.Bind();
-        glDrawArrays(GL_TRIANGLES, first, count);
-        program.Unbind();
+        glDrawElements(GL_TRIANGLES, ibo.Len(), GL_UNSIGNED_INT, nullptr);
         vao.Unbind();
-    }
-
-    void RenderCommand::Draw(const Mesh& mesh, const Program& program) {
-        Draw(mesh.vao, mesh.ibo, program);
+        program.Unbind();
     }
 
     void RenderCommand::SetViewPort(const int x, const int y, const int width, const int height) {
@@ -38,8 +24,9 @@ namespace E3D {
         if (enabled) {
             glEnable(GL_DEPTH_TEST);
             glDepthFunc(GL_LESS);
-        } else
+        } else {
             glDisable(GL_DEPTH_TEST);
+        }
     }
 
     void RenderCommand::SetCullFace(const bool enabled) {
