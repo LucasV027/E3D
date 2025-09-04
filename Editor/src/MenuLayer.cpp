@@ -2,7 +2,8 @@
 
 #include "imgui.h"
 
-MenuLayer::MenuLayer(): currentLayer(nullptr) {}
+MenuLayer::MenuLayer() : currentLayer(nullptr) {
+}
 
 void MenuLayer::OnUpdate(float ts) {
     E3D::RenderCommand::Clear(0.2f, 0.2f, 0.2f, 1.0f);
@@ -15,7 +16,7 @@ void MenuLayer::OnImGuiRender() {
             currentLayer = nullptr;
         }
     } else {
-        for (const auto& [name, factory] : layerRegistry) {
+        for (const auto &[name, factory]: layerRegistry) {
             if (ImGui::Button(name.c_str())) {
                 currentLayer = factory();
                 E3D::Application::Get().Push(currentLayer);

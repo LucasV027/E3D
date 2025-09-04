@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 #include "objload.h"
+#include "glm/gtc/type_ptr.inl"
 
 MeshLayer::MeshLayer() : controller(16.0f / 9.0f, 90.f) {
     controller.GetCamera().SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
@@ -46,10 +47,10 @@ MeshLayer::MeshLayer() : controller(16.0f / 9.0f, 90.f) {
 
 
     vbo = E3D::VertexBuffer::Create(verticesData, {
-                                            {E3D::AttributeType::Float, 3},
-                                            {E3D::AttributeType::Float, 3},
-                                            {E3D::AttributeType::Float, 2},
-                                        });
+                                        {E3D::AttributeType::Float, 3},
+                                        {E3D::AttributeType::Float, 3},
+                                        {E3D::AttributeType::Float, 2},
+                                    });
 
     ibo = E3D::IndexBuffer::Create(indices);
     vao = E3D::VertexArray::Create(vbo, ibo);
@@ -65,10 +66,8 @@ MeshLayer::~MeshLayer() = default;
 void MeshLayer::OnUpdate(const float ts) {
     controller.OnUpdate(ts);
 
-    const auto model = glm::mat4(1.0f);
-
     program->Bind();
-    program->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * model);
+    program->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * transform.transform);
 
     E3D::RenderCommand::SetDepthTest(true);
     E3D::RenderCommand::Clear(0.1f, 0.1f, 0.1f);
@@ -76,14 +75,57 @@ void MeshLayer::OnUpdate(const float ts) {
 }
 
 void MeshLayer::OnImGuiRender() {
-    ImGui::NewLine();
-    auto pos = controller.GetCamera().GetPosition();
-    auto rot = controller.GetCamera().GetOrientation();
-    ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
-    ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
-    ImGui::NewLine();
     static bool wireframe = false;
     if (ImGui::Checkbox("Wireframe", &wireframe)) {
         E3D::RenderCommand::SetWireframeMode(wireframe);
     }
+
+    ImGui::SeparatorText("Camera");
+    ImGui::Indent();
+    auto pos = controller.GetCamera().GetPosition();
+    auto rot = controller.GetCamera().GetOrientation();
+    ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
+    ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
+    ImGui::Unindent();
+
+    transform.OnImGuiRender();
+}
+
+
+void Transform::OnImGuiRender() {
+    ImGui::SeparatorText("Transform");
+    ImGui::Indent();
+
+    bool update = false;
+
+    ImGui::SeparatorText("Translation");
+    ImGui::Indent();
+    update |= ImGui::SliderFloat3("Offset", glm::value_ptr(translation), -100.f, 100.f, "%.2f");
+    ImGui::Unindent();
+
+    ImGui::SeparatorText("Rotation");
+    ImGui::Indent();
+    update |= ImGui::DragFloat3("Axis", glm::value_ptr(rotationAxis), 0.1f, -1.0f, 1.0f, "%.2f");
+    update |= ImGui::DragFloat("Angle", &rotationAngle, 1.f, 0.0f, 180.0f, "%.2f");
+    ImGui::Unindent();
+
+    ImGui::SeparatorText("Scale");
+    ImGui::Indent();
+    update |= ImGui::SliderFloat("Factor", &scaleFactor, 0.01f, 10.0f, "%.2f");
+    ImGui::Unindent();
+
+    ImGui::Unindent();
+
+    if (update) ReCompute();
+}
+
+void Transform::ReCompute() {
+    const glm::mat4 T = glm::translate(glm::mat4(1.0f), translation);
+    auto R = glm::mat4(1.0f);
+    if (glm::length(rotationAxis) > 0.0001f) {
+        R = glm::rotate(glm::mat4(1.0f), glm::radians(rotationAngle), rotationAxis);
+    }
+
+    const glm::mat4 S = glm::scale(glm::mat4(1.0f), glm::vec3(scaleFactor));
+    transform = T * R * S;
 }
