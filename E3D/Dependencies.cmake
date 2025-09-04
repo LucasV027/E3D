@@ -43,3 +43,4 @@ target_include_directories(
 )
 
 add_subdirectory(thirdparty/stb_image)
+add_subdirectory(thirdparty/objload)

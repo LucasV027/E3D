@@ -48,4 +48,5 @@ target_link_libraries(E3D PUBLIC
         glm
         imgui
         stb_image
+        objload
 )
