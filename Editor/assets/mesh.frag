@@ -22,13 +22,8 @@ void main()
     }
     // Toon shading
     if (st == 1) {
-        for (uint i = 0; i < 10; i++) {
-            float threshold = 1 - (1 / (i + 1));
-            if (intensity < threshold) {
-                color = c * threshold;
-                break;
-            }
-        }
+        float factor = 5.0;
+        color = c * (floor(intensity * factor) / factor);
     }
 
     FragColor = vec4(color, 1.0);
