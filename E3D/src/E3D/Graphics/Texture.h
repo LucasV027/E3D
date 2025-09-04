@@ -13,6 +13,7 @@ namespace E3D {
         enum class Format { R8, RGB8, RGBA8, RGBA32F };
 
         struct Specification {
+            // TODO: authorize none (if we dont want to set a special tex parameter)
             int width = 1;
             int height = 1;
 
@@ -33,9 +34,13 @@ namespace E3D {
 
         void LoadFromFile(const std::filesystem::path& path) const;
         void Submit(const void* data, unsigned int size) const;
+        unsigned int Id() const;
 
         void Bind(unsigned int slot = 0) const;
         void Unbind() const;
+
+        int Width() const;
+        int Height() const;
 
     private:
         unsigned int id;

@@ -1,24 +1,15 @@
-#include <iostream>
-
 #include <E3D.h>
 #include <E3D/Core/EntryPoint.h>
 
-#include "DefaultScene.h"
-#include "MeshScene.h"
+#include "MenuLayer.h"
 
 class EditorApp : public E3D::Application {
 public:
-    explicit EditorApp(const int scene) : Application("Editor", 1280, 720) {
-        std::cout << "Selected scene " << scene << std::endl;
-        switch (scene) {
-        case 1: SetScene(new MeshScene());
-            break;
-        default:
-            SetScene(new DefaultScene());
-        }
+    explicit EditorApp() : Application("Editor", 1280, 720) {
+        Push(new MenuLayer());
     }
 };
 
 E3D::Application* E3D::CreateApplication(int argc, char** argv) {
-    return new EditorApp(1);
+    return new EditorApp();
 }
