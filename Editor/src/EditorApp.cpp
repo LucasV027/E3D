@@ -20,6 +20,5 @@ public:
 };
 
 E3D::Application* E3D::CreateApplication(int argc, char** argv) {
-    // atoi returns 0 when it fails
-    return new EditorApp(atoi(argv[1]));
+    return new EditorApp(1);
 }
