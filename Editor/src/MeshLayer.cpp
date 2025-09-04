@@ -8,6 +8,7 @@
 #include "glm/gtc/type_ptr.inl"
 
 MeshLayer::MeshLayer() : controller(16.0f / 9.0f, 90.f) {
+    previewValue = shadingTypes[shadingIndex];
     controller.GetCamera().SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
 
     obj::Model model;
@@ -67,7 +68,11 @@ void MeshLayer::OnUpdate(const float ts) {
     controller.OnUpdate(ts);
 
     program->Bind();
-    program->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * transform.transform);
+    program->SetUniform(
+        "mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * transform.transform);
+    program->SetUniform("color", color);
+    program->SetUniform("lightDirection", lightDirection);
+    program->SetUniform("shadingType", shadingIndex);
 
     E3D::RenderCommand::SetDepthTest(true);
     E3D::RenderCommand::Clear(0.1f, 0.1f, 0.1f);
@@ -82,13 +87,35 @@ void MeshLayer::OnImGuiRender() {
 
     ImGui::SeparatorText("Camera");
     ImGui::Indent();
-    auto pos = controller.GetCamera().GetPosition();
-    auto rot = controller.GetCamera().GetOrientation();
+    const auto pos = controller.GetCamera().GetPosition();
+    const auto rot = controller.GetCamera().GetOrientation();
     ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
     ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
     ImGui::Unindent();
 
     transform.OnImGuiRender();
+
+    ImGui::SeparatorText("Scene");
+    ImGui::Indent();
+
+    if (ImGui::BeginCombo("Shading mode", previewValue.c_str())) {
+        for (size_t i = 0; i < shadingTypes.size(); ++i) {
+            const bool isSelected = (shadingIndex == static_cast<int>(i));
+            if (ImGui::Selectable(shadingTypes[i].c_str(), isSelected)) {
+                shadingIndex = i;
+                previewValue = shadingTypes[shadingIndex];
+            }
+
+            if (isSelected) {
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
+
+    ImGui::ColorEdit3("Color", glm::value_ptr(color));
+    ImGui::SliderFloat3("Light direction", glm::value_ptr(lightDirection), -10.0f, 10.0f, "%.2f");
+    ImGui::Unindent();
 }
 
 
