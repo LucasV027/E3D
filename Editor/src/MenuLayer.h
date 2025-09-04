@@ -3,19 +3,23 @@
 #include <E3D.h>
 
 #include "BaseLayer.h"
+#include "MeshLayer.h"
 
 class MenuLayer final : public E3D::Layer {
 public:
     MenuLayer();
+
     ~MenuLayer() override = default;
 
     void OnUpdate(float ts) override;
+
     void OnImGuiRender() override;
 
 private:
-    const std::unordered_map<std::string, std::function<Layer*()>> layerRegistry = {
+    const std::unordered_map<std::string, std::function<Layer*()> > layerRegistry = {
         {"Base", [] { return new BaseLayer(); }},
+        {"Mesh", [] { return new MeshLayer(); }},
     };
 
-    Layer* currentLayer;
+    Layer *currentLayer;
 };

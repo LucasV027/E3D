@@ -4,6 +4,8 @@ add_executable(EditorApp
         src/BaseLayer.h
         src/MenuLayer.cpp
         src/MenuLayer.h
+        src/MeshLayer.h
+        src/MeshLayer.cpp
 )
 
 target_include_directories(EditorApp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../E3D/src)

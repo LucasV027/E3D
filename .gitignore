@@ -34,3 +34,6 @@
 # Clion
 .idea
 cmake-build*
+
+# Models
+!Editor/assets/*.obj

@@ -18,8 +18,8 @@ namespace E3D {
         size_t Len() const { return length; }
 
     protected:
-        template <typename T>
-        void Init(const std::vector<T>& data, const GLbitfield flags = GL_DYNAMIC_STORAGE_BIT) {
+        template<typename T>
+        void Init(const std::vector<T> &data, const GLbitfield flags = GL_DYNAMIC_STORAGE_BIT) {
             length = data.size();
             glCreateBuffers(1, &handle);
             glNamedBufferStorage(handle, data.size() * sizeof(T), data.data(), flags);
@@ -32,15 +32,15 @@ namespace E3D {
 
     class VertexBuffer final : public Buffer {
     public:
-        template <typename T>
-        static Ref<VertexBuffer> Create(const std::vector<T>& data, const VertexBufferLayout& layout) {
+        template<typename T>
+        static Ref<VertexBuffer> Create(const std::vector<T> &data, const VertexBufferLayout &layout) {
             auto vb = CreateRef<VertexBuffer>();
             vb->Init(data);
             vb->layout = layout;
             return vb;
         }
 
-        const VertexBufferLayout& Layout() const { return layout; }
+        const VertexBufferLayout &Layout() const { return layout; }
 
     private:
         VertexBufferLayout layout;
@@ -48,10 +48,23 @@ namespace E3D {
 
     class IndexBuffer final : public Buffer {
     public:
-        static Ref<IndexBuffer> Create(const std::vector<unsigned int>& data) {
+        static Ref<IndexBuffer> Create(const std::vector<unsigned int> &data) {
             auto ib = CreateRef<IndexBuffer>();
             ib->Init(data);
+            ib->type = GL_UNSIGNED_INT;
             return ib;
         }
+
+        static Ref<IndexBuffer> Create(const std::vector<unsigned short> &data) {
+            auto ib = CreateRef<IndexBuffer>();
+            ib->Init(data);
+            ib->type = GL_UNSIGNED_SHORT;
+            return ib;
+        }
+
+        GLenum Type() const { return type; }
+
+    private:
+        GLenum type = GL_UNSIGNED_INT;
     };
 }
