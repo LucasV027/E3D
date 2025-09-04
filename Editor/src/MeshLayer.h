@@ -12,10 +12,10 @@ public:
     void OnImGuiRender() override;
 
 private:
-    E3D::Ref<E3D::VertexBuffer> cubeVBO;
-    E3D::Ref<E3D::IndexBuffer> cubeIBO;
-    E3D::Ref<E3D::VertexArray> cubeVAO;
-    E3D::Ref<E3D::Program> cubeProgram;
+    E3D::Ref<E3D::VertexBuffer> vbo;
+    E3D::Ref<E3D::IndexBuffer> ibo;
+    E3D::Ref<E3D::VertexArray> vao;
+    E3D::Ref<E3D::Program> program;
 
     const std::filesystem::path cubeFsPath = ASSETS_DIR "/mesh.frag";
     const std::filesystem::path cubeVsPath = ASSETS_DIR "/mesh.vert";
