@@ -2,10 +2,9 @@
 
 #include <format>
 
-#include "imgui.h"
-#include "Timer.h"
-#include "UI.h"
+#include <imgui.h>
 
+#include "ImGuiLayer.h"
 #include "E3D/Graphics/RenderCommand.h"
 
 namespace E3D {
@@ -18,14 +17,7 @@ namespace E3D {
 
         window.SetEventCallback([this](Event& event) { return this->OnEvent(event); });
 
-        // Important: Initialize ImGui *after* the EventSystem.
-        // ImGui's setup appends its own GLFW callbacks to any existing ones,
-        // but the EventSystem initialization *overwrites* the GLFW callbacks.
-        UI::Init(window.Handle());
-    }
-
-    Application::~Application() {
-        UI::Shutdown();
+        PushLayer<ImGuiLayer>("ImGuiLayer#");
     }
 
     Application& Application::Get() { return *instance; }
@@ -41,8 +33,7 @@ namespace E3D {
     }
 
     void Application::Run() {
-        Timer deltaClock;
-        deltaClock.Start();
+        double lastFrame = Time();
 
         while (running) {
             // Sleep when minimized
@@ -53,21 +44,38 @@ namespace E3D {
 
             layerStack.ProcessPending();
 
-            deltaClock.Update();
-            window.PollEvents();
+            const double time = Time();
+            dt = time - lastFrame;
+            lastFrame = time;
 
-            for (auto& [_, layer] : layerStack.Layers())
-                layer->OnUpdate(deltaClock.DeltaTime());
+            // --- Update ---
+            {
+                for (auto& [_, layer] : layerStack.Layers())
+                    layer->OnUpdate(dt);
+            }
 
-            UI::BeginFrame();
-            ImGui::Begin("[INFO]");
-            ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
-            for (auto& [_, layer] : layerStack.Layers())
-                layer->OnImGui();
-            ImGui::End();
-            UI::EndFrame();
+            // --- Render ---
+            {
+                for (auto& [_, layer] : layerStack.Layers())
+                    layer->OnRender();
+            }
+
+
+            // --- ImGui ---
+            {
+                ImGuiLayer::Begin();
+                ImGui::Begin("[INFO]");
+                for (auto& [tag, layer] : layerStack.Layers()) {
+                    if (tag.back() != '#')
+                        ImGui::SeparatorText(tag.c_str());
+                    layer->OnImGui();
+                }
+                ImGui::End();
+                ImGuiLayer::End();
+            }
 
             window.SwapBuffers();
+            Window::PollEvents();
         }
     }
 

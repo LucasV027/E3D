@@ -16,13 +16,13 @@ public:
 private:
     const std::unordered_map<std::string, std::function<void(std::string&)>> layerRegistry = {
         {
-            "Layer", [](std::string& name) {
+            "Base", [](std::string& name) {
                 E3D::Application::Get().PushLayer<BaseLayer>("BaseLayer");
                 name = "BaseLayer";
             }
         },
         {
-            "MeshLayer", [](std::string& name) {
+            "Mesh", [](std::string& name) {
                 E3D::Application::Get().PushLayer<MeshLayer>("MeshLayer");
                 name = "MeshLayer";
             }

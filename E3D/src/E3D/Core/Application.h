@@ -9,7 +9,7 @@ namespace E3D {
     class Application {
     public:
         explicit Application(const Window::Config& config);
-        ~Application();
+        ~Application() = default;
 
         static Application& Get();
         static Window& GetWindow();
@@ -38,6 +38,7 @@ namespace E3D {
         bool running = true;
         bool minimized = false;
         int width, height;
+        double dt = 0.0f;
 
     private:
         static Application* instance;

@@ -2,8 +2,6 @@
 
 #include "E3D/Core/Application.h"
 #include "E3D/Core/Window.h"
-#include "E3D/Core/UI.h"
-#include "E3D/Core/Timer.h"
 #include "E3D/Core/Layer.h"
 
 #include "E3D/Graphics/RenderCommand.h"
