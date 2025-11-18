@@ -1,5 +1,5 @@
 #include <E3D.h>
-#include <E3D/Core/EntryPoint.h>
+#include <E3D/EntryPoint.h>
 
 #include "MenuLayer.h"
 

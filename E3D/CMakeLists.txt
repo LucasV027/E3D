@@ -1,7 +1,8 @@
 add_library(E3D STATIC
         src/E3D.h
 
-        src/E3D/Core/EntryPoint.h
+        src/E3D/EntryPoint.h
+
         src/E3D/Core/Application.cpp
         src/E3D/Core/Application.h
         src/E3D/Core/Window.cpp
