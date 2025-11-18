@@ -54,7 +54,7 @@ namespace E3D {
             UI::BeginFrame();
             ImGui::Begin("[INFO]");
             ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
-            for (auto* layer : layers) layer->OnImGuiRender();
+            for (auto* layer : layers) layer->OnImGui();
             ImGui::End();
             UI::EndFrame();
 
@@ -75,8 +75,6 @@ namespace E3D {
         minimized = false;
         this->width = width;
         this->height = height;
-
-        RenderCommand::SetViewPort(0, 0, width, height);
     }
 
     void Application::OnEvent(Event& event) {
@@ -88,6 +86,13 @@ namespace E3D {
             OnResize(event.resizeData.width, event.resizeData.height);
         default:
             break;
+        }
+
+        if (!minimized) {
+            for (const auto layer : layers) {
+                if (event.handled) return;
+                layer->OnEvent(event);
+            }
         }
     }
 }

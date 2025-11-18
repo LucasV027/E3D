@@ -19,8 +19,9 @@ public:
     MeshLayer();
     ~MeshLayer() override;
 
-    void OnUpdate(float ts) override;
-    void OnImGuiRender() override;
+    void OnUpdate(double ts) override;
+    void OnImGui() override;
+    void OnEvent(Event& event) override;
 
 private:
     // OpenGL

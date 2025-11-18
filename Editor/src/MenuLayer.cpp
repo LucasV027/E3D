@@ -5,11 +5,11 @@
 MenuLayer::MenuLayer() : currentLayer(nullptr) {
 }
 
-void MenuLayer::OnUpdate(float ts) {
+void MenuLayer::OnUpdate(double ts) {
     E3D::RenderCommand::Clear(0.2f, 0.2f, 0.2f, 1.0f);
 }
 
-void MenuLayer::OnImGuiRender() {
+void MenuLayer::OnImGui() {
     if (currentLayer) {
         if (ImGui::Button("<-")) {
             E3D::Application::Get().Pop(currentLayer);

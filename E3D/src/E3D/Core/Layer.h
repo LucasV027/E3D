@@ -2,14 +2,18 @@
 
 #include <vector>
 
+#include "Event.h"
+
 namespace E3D {
     class Layer {
     public:
-        Layer() = default;
         virtual ~Layer() = default;
 
-        virtual void OnUpdate(float ts) {}
-        virtual void OnImGuiRender() {}
+        virtual void OnAttach() {}
+        virtual void OnDetach() {}
+        virtual void OnUpdate(double dt) {}
+        virtual void OnImGui() {}
+        virtual void OnEvent(Event& event) {}
     };
 
     class LayerStack {

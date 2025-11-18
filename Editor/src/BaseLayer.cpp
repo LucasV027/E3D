@@ -43,10 +43,10 @@ BaseLayer::BaseLayer() {
 
 BaseLayer::~BaseLayer() = default;
 
-void BaseLayer::OnUpdate(const float ts) {
+void BaseLayer::OnUpdate(const double ts) {
     controller->OnUpdate(ts);
 
-    rotationMatrix = rotate(rotationMatrix, rotationSpeed * ts, normalize(rotationAxis));
+    rotationMatrix = rotate(rotationMatrix, rotationSpeed * (float)ts, normalize(rotationAxis));
     model = rotationMatrix;
     model = glm::scale(model, scale);
 
@@ -59,7 +59,7 @@ void BaseLayer::OnUpdate(const float ts) {
     E3D::RenderCommand::Draw(*cubeVAO, *cubeIBO, *cubeProgram);
 }
 
-void BaseLayer::OnImGuiRender() {
+void BaseLayer::OnImGui() {
     ImGui::NewLine();
     ImGui::SliderFloat("Rotation Speed", &rotationSpeed, 0.0f, 100.f);
     ImGui::SliderFloat3("Rotation Axis", &rotationAxis.x, -1.0f, 1.0f);
@@ -74,4 +74,8 @@ void BaseLayer::OnImGuiRender() {
     if (ImGui::Checkbox("Wireframe", &wireframe)) {
         E3D::RenderCommand::SetWireframeMode(wireframe);
     }
+}
+
+void BaseLayer::OnEvent(Event& event) {
+    controller->OnEvent(event);
 }

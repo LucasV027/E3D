@@ -36,7 +36,6 @@ namespace E3D {
         bool IsKeyDown(int key) const;
 
         enum class CursorMode { NORMAL, DISABLED, HIDDEN };
-
         void SetCursorMode(CursorMode mode);
         CursorMode GetCursorMode() const;
         void SetVSync(bool enable) const;

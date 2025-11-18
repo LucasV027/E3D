@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "Base.h"
+
 namespace E3D {
     Window::Window(const Config& config) {
         if (windowCount == 0) {
@@ -97,7 +99,18 @@ namespace E3D {
     bool Window::IsKeyDown(const int key) const { return glfwGetKey(window, key) == GLFW_PRESS; }
 
     void Window::SetCursorMode(const CursorMode mode) {
-        glfwSetInputMode(window, GLFW_CURSOR, static_cast<int>(mode));
+        // clang-format off
+        int m = 0;
+        switch (mode) {
+        case CursorMode::NORMAL: m = GLFW_CURSOR_NORMAL;     break;
+        case CursorMode::DISABLED: m = GLFW_CURSOR_DISABLED; break;
+        case CursorMode::HIDDEN: m = GLFW_CURSOR_HIDDEN;     break;
+        default:
+            panic("Invalid Cursor Mode");
+        }
+        // clang-format on
+
+        glfwSetInputMode(window, GLFW_CURSOR, m);
         currentCursorMode = mode;
     }
 

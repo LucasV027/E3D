@@ -73,7 +73,7 @@ MeshLayer::MeshLayer() {
 
 MeshLayer::~MeshLayer() = default;
 
-void MeshLayer::OnUpdate(const float ts) {
+void MeshLayer::OnUpdate(const double ts) {
     controller->OnUpdate(ts);
 
     program->Bind();
@@ -87,7 +87,7 @@ void MeshLayer::OnUpdate(const float ts) {
     E3D::RenderCommand::Draw(*vao, *ibo, *program);
 }
 
-void MeshLayer::OnImGuiRender() {
+void MeshLayer::OnImGui() {
     static bool wireframe = false;
     if (ImGui::Checkbox("Wireframe", &wireframe)) {
         E3D::RenderCommand::SetWireframeMode(wireframe);
@@ -124,6 +124,10 @@ void MeshLayer::OnImGuiRender() {
     ImGui::ColorEdit3("Color", glm::value_ptr(color));
     ImGui::SliderFloat3("Light direction", glm::value_ptr(lightDirection), -10.0f, 10.0f, "%.2f");
     ImGui::Unindent();
+}
+
+void MeshLayer::OnEvent(Event& event) {
+    controller->OnEvent(event);
 }
 
 void Transform::OnImGuiRender() {

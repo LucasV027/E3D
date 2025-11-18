@@ -8,12 +8,10 @@
 class MenuLayer final : public E3D::Layer {
 public:
     MenuLayer();
-
     ~MenuLayer() override = default;
 
-    void OnUpdate(float ts) override;
-
-    void OnImGuiRender() override;
+    void OnUpdate(double ts) override;
+    void OnImGui() override;
 
 private:
     const std::unordered_map<std::string, std::function<Layer*()> > layerRegistry = {
