@@ -21,7 +21,8 @@ private:
     const std::filesystem::path cubeVsPath = ASSETS_DIR "/cube.vert";
 
     // Camera
-    E3D::CameraController controller;
+    E3D::Camera camera;
+    E3D::Scope<E3D::CameraController> controller;
 
     // Transforms
     glm::mat4 model = glm::mat4(1.0f);

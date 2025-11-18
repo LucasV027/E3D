@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <unordered_map>
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 #include "glm/glm.hpp"
 
 #include "E3D/Core/Base.h"

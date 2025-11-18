@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace E3D {
     FrameBuffer::~FrameBuffer() {

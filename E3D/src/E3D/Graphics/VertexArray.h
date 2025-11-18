@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 #include "E3D/Core/Base.h"
 #include "Buffer.h"

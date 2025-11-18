@@ -11,18 +11,15 @@ struct Transform {
     glm::mat4 transform = glm::mat4(1.0f);
 
     void OnImGuiRender();
-
     void ReCompute();
 };
 
 class MeshLayer final : public E3D::Layer {
 public:
     MeshLayer();
-
     ~MeshLayer() override;
 
     void OnUpdate(float ts) override;
-
     void OnImGuiRender() override;
 
 private:
@@ -50,5 +47,6 @@ private:
     const std::filesystem::path meshPath = ASSETS_DIR "/suzanne.obj";
 
     // Camera
-    E3D::CameraController controller;
+    E3D::Camera camera;
+    E3D::Scope<E3D::CameraController> controller;
 };

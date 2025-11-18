@@ -3,7 +3,17 @@
 #include "imgui.h"
 #include "glm/gtc/matrix_transform.hpp"
 
-BaseLayer::BaseLayer() : controller(16.0f / 9.0f, 90.f) {
+BaseLayer::BaseLayer() {
+    const uint32_t width = E3D::Application::Get().Width();
+    const uint32_t height = E3D::Application::Get().Height();
+
+    camera.SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+    camera.SetOrientation(glm::vec3(0.0f, 0.0f, -1.f));
+    camera.SetPerspective(90.0f, static_cast<float>(width) / static_cast<float>(height));
+
+    controller = E3D::CreateScope<E3D::CameraController>(camera);
+    controller->SetSpeed(20.0f);
+
     cubeVBO = E3D::VertexBuffer::Create(CUBE, {
                                             {E3D::AttributeType::Float, 3},
                                             {E3D::AttributeType::Float, 3},
@@ -34,14 +44,14 @@ BaseLayer::BaseLayer() : controller(16.0f / 9.0f, 90.f) {
 BaseLayer::~BaseLayer() = default;
 
 void BaseLayer::OnUpdate(const float ts) {
-    controller.OnUpdate(ts);
+    controller->OnUpdate(ts);
 
     rotationMatrix = rotate(rotationMatrix, rotationSpeed * ts, normalize(rotationAxis));
     model = rotationMatrix;
     model = glm::scale(model, scale);
 
     cubeProgram->Bind();
-    cubeProgram->SetUniform("mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * model);
+    cubeProgram->SetUniform("mvp", camera.Proj() * camera.View() * model);
 
     cubeTexture->Bind();
     E3D::RenderCommand::SetDepthTest(true);
@@ -55,8 +65,8 @@ void BaseLayer::OnImGuiRender() {
     ImGui::SliderFloat3("Rotation Axis", &rotationAxis.x, -1.0f, 1.0f);
     ImGui::SliderFloat3("Scale", &scale.x, 1.0f, 10.0f);
     ImGui::NewLine();
-    auto pos = controller.GetCamera().GetPosition();
-    auto rot = controller.GetCamera().GetOrientation();
+    const auto& pos = camera.Position();
+    const auto& rot = camera.Orientation();
     ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
     ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
     ImGui::NewLine();

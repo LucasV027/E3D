@@ -3,13 +3,13 @@
 
 #include "MenuLayer.h"
 
-class EditorApp : public E3D::Application {
-public:
-    explicit EditorApp() : Application("Editor", 1280, 720) {
-        Push(new MenuLayer());
-    }
-};
-
-E3D::Application* E3D::CreateApplication(int argc, char** argv) {
-    return new EditorApp();
+inline std::unique_ptr<E3D::Application> CreateApplication(int argc, char** argv) {
+    auto app = E3D::CreateScope<E3D::Application>(E3D::Window::Config{
+            .title = "[App]",
+            .width = 1600,
+            .height = 900,
+        }
+    );
+    app->Push(new MenuLayer());
+    return app;
 }

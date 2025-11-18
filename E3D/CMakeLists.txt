@@ -13,6 +13,8 @@ add_library(E3D STATIC
         src/E3D/Core/Timer.cpp
         src/E3D/Core/Layer.h
         src/E3D/Core/Layer.cpp
+        src/E3D/Core/Event.h
+        src/E3D/Core/Event.cpp
 
         src/E3D/Graphics/RenderCommand.cpp
         src/E3D/Graphics/RenderCommand.h
@@ -24,10 +26,6 @@ add_library(E3D STATIC
         src/E3D/Graphics/Buffer.cpp
         src/E3D/Graphics/Program.cpp
         src/E3D/Graphics/Program.h
-        src/E3D/Graphics/Camera.cpp
-        src/E3D/Graphics/Camera.h
-        src/E3D/Graphics/CameraController.cpp
-        src/E3D/Graphics/CameraController.h
         src/E3D/Graphics/FrameBuffer.cpp
         src/E3D/Graphics/FrameBuffer.h
         src/E3D/Graphics/Texture.cpp
@@ -35,22 +33,20 @@ add_library(E3D STATIC
         src/E3D/Graphics/RenderBuffer.cpp
         src/E3D/Graphics/RenderBuffer.h
 
-        src/E3D/Event/EventSystem.cpp
-        src/E3D/Event/EventSystem.h
-        src/E3D/Event/Input.cpp
-        src/E3D/Event/Input.h
-        src/E3D/Event/KeyCode.h
+        src/E3D/Camera/Camera.h
+        src/E3D/Camera/Camera.cpp
+        src/E3D/Camera/CameraController.h
+        src/E3D/Camera/CameraController.cpp
 )
 
 target_include_directories(E3D PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_compile_definitions(E3D PRIVATE ASSETS_DIR="${CMAKE_SOURCE_DIR}/assets")
 
-include(Dependencies.cmake)
+add_subdirectory(vendor)
 target_link_libraries(E3D PUBLIC
         glad
         glfw
         glm
         imgui
-        stb_image
         objload
+        stb
 )

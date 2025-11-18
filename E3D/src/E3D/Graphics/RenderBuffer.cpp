@@ -1,6 +1,6 @@
 #include "RenderBuffer.h"
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace E3D {
     Ref<RenderBuffer> RenderBuffer::Create(const int width, const int height, const Type type) {

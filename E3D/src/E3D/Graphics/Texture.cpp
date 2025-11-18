@@ -2,8 +2,8 @@
 
 #include <stdexcept>
 
-#include "glad/glad.h"
-#include "stb_image.h"
+#include "glad/gl.h"
+#include "stb/stb_image.h"
 
 namespace E3D {
     namespace Helper {
@@ -39,7 +39,7 @@ namespace E3D {
 
         static int WrapModeToGL(const Texture::WrapMode mode) {
             switch (mode) {
-            case Texture::WrapMode::Clamp: return GL_CLAMP;
+            case Texture::WrapMode::Clamp: return GL_CLAMP_TO_EDGE;
             case Texture::WrapMode::Repeat: return GL_REPEAT;
             case Texture::WrapMode::ClampEdge: return GL_CLAMP_TO_EDGE;
             case Texture::WrapMode::ClampBorder: return GL_CLAMP_TO_BORDER;

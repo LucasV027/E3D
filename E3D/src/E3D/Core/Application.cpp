@@ -6,27 +6,22 @@
 #include "Timer.h"
 #include "UI.h"
 
-#include "E3D/Event/EventSystem.h"
-#include "E3D/Event/Input.h"
 #include "E3D/Graphics/RenderCommand.h"
 
 namespace E3D {
     Application* Application::instance = nullptr;
 
-    Application::Application(std::string title, int width, int height) {
-        if (instance) panic("Application already exists");
+    Application::Application(const Window::Config& config) : window(config) {
+        if (instance)
+            panic("Application already exists");
         instance = this;
 
-        window = CreateScope<Window>(std::move(title), width, height);
-        Input::Init(window->Handle());
-        EventSystem::Init(window->Handle());
-        handler.Subscribe<EventType::WindowClose>(BIND_EVENT_FN(OnClose));
-        handler.Subscribe<EventType::WindowResize>(BIND_EVENT_FN(OnResize));
+        window.SetEventCallback([this](Event& event) { return this->OnEvent(event); });
 
         // Important: Initialize ImGui *after* the EventSystem.
         // ImGui's setup appends its own GLFW callbacks to any existing ones,
         // but the EventSystem initialization *overwrites* the GLFW callbacks.
-        UI::Init(window->Handle());
+        UI::Init(window.Handle());
     }
 
     Application::~Application() {
@@ -34,6 +29,9 @@ namespace E3D {
     }
 
     Application& Application::Get() { return *instance; }
+    Window& Application::GetWindow() { return instance->window; }
+    uint32_t Application::Width() const { return width; }
+    uint32_t Application::Height() const { return height; }
 
     void Application::Push(Layer* layer) {
         layers.PushLayer(layer);
@@ -49,7 +47,7 @@ namespace E3D {
 
         while (running) {
             deltaClock.Update();
-            window->PollEvents();
+            window.PollEvents();
 
             for (auto* layer : layers) layer->OnUpdate(deltaClock.DeltaTime());
 
@@ -60,7 +58,7 @@ namespace E3D {
             ImGui::End();
             UI::EndFrame();
 
-            window->SwapBuffers();
+            window.SwapBuffers();
         }
     }
 
@@ -69,6 +67,27 @@ namespace E3D {
     }
 
     void Application::OnResize(const int width, const int height) {
+        if (width == 0 || height == 0) {
+            minimized = true;
+            return;
+        }
+
+        minimized = false;
+        this->width = width;
+        this->height = height;
+
         RenderCommand::SetViewPort(0, 0, width, height);
+    }
+
+    void Application::OnEvent(Event& event) {
+        switch (event.type) {
+        case Event::Type::Close:
+            OnClose();
+            break;
+        case Event::Type::Resize:
+            OnResize(event.resizeData.width, event.resizeData.height);
+        default:
+            break;
+        }
     }
 }

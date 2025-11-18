@@ -7,23 +7,32 @@
 #include "objload.h"
 #include "glm/gtc/type_ptr.inl"
 
-MeshLayer::MeshLayer() : controller(16.0f / 9.0f, 90.f) {
+MeshLayer::MeshLayer() {
     previewValue = shadingTypes[shadingIndex];
-    controller.GetCamera().SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
+
+    const uint32_t width = E3D::Application::Get().Width();
+    const uint32_t height = E3D::Application::Get().Height();
+
+    camera.SetPosition(glm::vec3(0.0f, 0.0f, 4.0f));
+    camera.SetOrientation(glm::vec3(0.0, 0.0f, -1.f));
+    camera.SetPerspective(90.0f, width, height);
+
+    controller = E3D::CreateScope<E3D::CameraController>(camera);
+    controller->SetSpeed(20.0f);
 
     obj::Model model;
     try {
         model = std::move(obj::loadModelFromFile(meshPath.string()));
-    } catch (const std::exception &) {
+    } catch (const std::exception&) {
         std::cerr << std::format("Failed to load model from {}\n", meshPath.string());
         return;
     }
 
     // Model data
-    const auto &vertices = model.vertex;
-    const auto &normals = model.normal;
-    const auto &texCoords = model.texCoord;
-    const auto &indices = model.faces.at("default");
+    const auto& vertices = model.vertex;
+    const auto& normals = model.normal;
+    const auto& texCoords = model.texCoord;
+    const auto& indices = model.faces.at("default");
 
     std::vector<float> verticesData;
     verticesData.reserve(vertices.size() + normals.size() + texCoords.size());
@@ -65,11 +74,10 @@ MeshLayer::MeshLayer() : controller(16.0f / 9.0f, 90.f) {
 MeshLayer::~MeshLayer() = default;
 
 void MeshLayer::OnUpdate(const float ts) {
-    controller.OnUpdate(ts);
+    controller->OnUpdate(ts);
 
     program->Bind();
-    program->SetUniform(
-        "mvp", controller.GetCamera().GetProjection() * controller.GetCamera().GetView() * transform.transform);
+    program->SetUniform("mvp", camera.Proj() * camera.View() * transform.transform);
     program->SetUniform("color", color);
     program->SetUniform("lightDirection", lightDirection);
     program->SetUniform("shadingType", shadingIndex);
@@ -87,8 +95,8 @@ void MeshLayer::OnImGuiRender() {
 
     ImGui::SeparatorText("Camera");
     ImGui::Indent();
-    const auto pos = controller.GetCamera().GetPosition();
-    const auto rot = controller.GetCamera().GetOrientation();
+    const auto& pos = camera.Position();
+    const auto& rot = camera.Orientation();
     ImGui::Text("Position (%.2f, %.2f, %.2f)", pos.x, pos.y, pos.z);
     ImGui::Text("Orientation (%.2f, %.2f, %.2f)", rot.x, rot.y, rot.z);
     ImGui::Unindent();
@@ -117,7 +125,6 @@ void MeshLayer::OnImGuiRender() {
     ImGui::SliderFloat3("Light direction", glm::value_ptr(lightDirection), -10.0f, 10.0f, "%.2f");
     ImGui::Unindent();
 }
-
 
 void Transform::OnImGuiRender() {
     ImGui::SeparatorText("Transform");

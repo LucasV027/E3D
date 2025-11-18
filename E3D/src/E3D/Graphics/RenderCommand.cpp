@@ -1,6 +1,6 @@
 #include "RenderCommand.h"
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace E3D {
     void RenderCommand::Clear(const float r, const float g, const float b, const float a) {

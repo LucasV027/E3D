@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include "E3D/Event/EventSystem.h"
-
 namespace E3D {
     class Layer {
     public:
@@ -12,9 +10,6 @@ namespace E3D {
 
         virtual void OnUpdate(float ts) {}
         virtual void OnImGuiRender() {}
-
-    protected:
-        ScopedEventListener events;
     };
 
     class LayerStack {

@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 #include "VertexBufferLayout.h"
 #include "E3D/Core/Base.h"

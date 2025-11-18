@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "glad/glad.h"
+#include "glad/gl.h"
 
 namespace E3D {
     Program::Program(InternalTag) : id(0) {}
