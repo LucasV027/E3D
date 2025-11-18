@@ -32,6 +32,7 @@ namespace E3D {
         void SwapBuffers() const;
         void MakeCurrent() const;
         bool ShouldClose() const;
+        static double Time();
 
         bool IsKeyDown(int key) const;
 

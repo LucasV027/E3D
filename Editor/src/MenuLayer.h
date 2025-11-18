@@ -14,10 +14,20 @@ public:
     void OnImGui() override;
 
 private:
-    const std::unordered_map<std::string, std::function<Layer*()> > layerRegistry = {
-        {"Base", [] { return new BaseLayer(); }},
-        {"Mesh", [] { return new MeshLayer(); }},
+    const std::unordered_map<std::string, std::function<void(std::string&)>> layerRegistry = {
+        {
+            "Layer", [](std::string& name) {
+                E3D::Application::Get().PushLayer<BaseLayer>("BaseLayer");
+                name = "BaseLayer";
+            }
+        },
+        {
+            "MeshLayer", [](std::string& name) {
+                E3D::Application::Get().PushLayer<MeshLayer>("MeshLayer");
+                name = "MeshLayer";
+            }
+        },
     };
 
-    Layer *currentLayer;
+    std::string currentLayerTag;
 };

@@ -96,6 +96,7 @@ namespace E3D {
     void Window::SwapBuffers() const { glfwSwapBuffers(window); }
     void Window::MakeCurrent() const { glfwMakeContextCurrent(window); }
     bool Window::ShouldClose() const { return glfwWindowShouldClose(window); }
+    double Window::Time() { return glfwGetTime(); }
     bool Window::IsKeyDown(const int key) const { return glfwGetKey(window, key) == GLFW_PRESS; }
 
     void Window::SetCursorMode(const CursorMode mode) {

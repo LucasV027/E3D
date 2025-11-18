@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Layer.h"
+#include "LayerStack.h"
 #include "Window.h"
 
 int main(int argc, char** argv);
@@ -13,21 +13,28 @@ namespace E3D {
 
         static Application& Get();
         static Window& GetWindow();
+        void Stop();
+
+        static double Time();
         uint32_t Width() const;
         uint32_t Height() const;
 
-        void Push(Layer* layer);
-        void Pop(Layer* layer);
+        template <typename T>
+        void PushLayer(const std::string& tag) {
+            layerStack.PushLayer<T>(tag);
+        }
+
+        void PopLayer(const std::string& tag);
 
     private:
-        void Run() const;
+        void Run();
         void OnClose();
         void OnResize(int width, int height);
         void OnEvent(Event& event);
 
     private:
         Window window;
-        LayerStack layers;
+        LayerStack layerStack;
         bool running = true;
         bool minimized = false;
         int width, height;

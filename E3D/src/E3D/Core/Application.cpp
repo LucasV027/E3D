@@ -30,31 +30,40 @@ namespace E3D {
 
     Application& Application::Get() { return *instance; }
     Window& Application::GetWindow() { return instance->window; }
+    void Application::Stop() { running = false; }
+
     uint32_t Application::Width() const { return width; }
     uint32_t Application::Height() const { return height; }
+    double Application::Time() { return Window::Time(); }
 
-    void Application::Push(Layer* layer) {
-        layers.PushLayer(layer);
+    void Application::PopLayer(const std::string& tag) {
+        layerStack.PopLayer(tag);
     }
 
-    void Application::Pop(Layer* layer) {
-        layers.PopLayer(layer);
-    }
-
-    void Application::Run() const {
+    void Application::Run() {
         Timer deltaClock;
         deltaClock.Start();
 
         while (running) {
+            // Sleep when minimized
+            if (minimized) {
+                Window::WaitEvents();
+                continue;
+            }
+
+            layerStack.ProcessPending();
+
             deltaClock.Update();
             window.PollEvents();
 
-            for (auto* layer : layers) layer->OnUpdate(deltaClock.DeltaTime());
+            for (auto& [_, layer] : layerStack.Layers())
+                layer->OnUpdate(deltaClock.DeltaTime());
 
             UI::BeginFrame();
             ImGui::Begin("[INFO]");
             ImGui::Text("FPS: %.2f", ImGui::GetIO().Framerate);
-            for (auto* layer : layers) layer->OnImGui();
+            for (auto& [_, layer] : layerStack.Layers())
+                layer->OnImGui();
             ImGui::End();
             UI::EndFrame();
 
@@ -89,7 +98,7 @@ namespace E3D {
         }
 
         if (!minimized) {
-            for (const auto layer : layers) {
+            for (auto& [_, layer] : layerStack.Layers()) {
                 if (event.handled) return;
                 layer->OnEvent(event);
             }

@@ -10,6 +10,6 @@ inline std::unique_ptr<E3D::Application> CreateApplication(int argc, char** argv
             .height = 900,
         }
     );
-    app->Push(new MenuLayer());
+    app->PushLayer<MenuLayer>("MenuLayer");
     return app;
 }
